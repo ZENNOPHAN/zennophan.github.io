@@ -206,7 +206,20 @@ body::before {
   margin-bottom: 2px;
   letter-spacing: 1px;
 }
-#piecesCanvas { display:block; touch-action:none; margin:0 auto; }
+#piecesCanvas { display:block; touch-action:none; margin:0 auto; cursor: grab; }
+
+/* Floating Drag Element: Instant GPU movement & Elevated above finger */
+#dragCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1000;
+  display: none;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.7)) brightness(1.15);
+  transform: translate3d(-9999px, -9999px, 0);
+  will-change: transform;
+}
 
 #comboToast {
   position: fixed;
@@ -351,6 +364,9 @@ body::before {
   </div>
 </div>
 
+<!-- Floating piece canvas for zero-latency dragging & unobstructed touch view -->
+<canvas id="dragCanvas"></canvas>
+
 <div id="comboToast"></div>
 
 <div id="overlay" class="hidden">
@@ -403,8 +419,10 @@ const PARTNERS = [
 
 const gc = document.getElementById('gameCanvas');
 const pc = document.getElementById('piecesCanvas');
+const dragCanvas = document.getElementById('dragCanvas');
 const gctx = gc.getContext('2d');
 const pctx = pc.getContext('2d');
+const dctx = dragCanvas.getContext('2d');
 
 let CS = 44;
 
@@ -434,9 +452,11 @@ function calcSizes() {
 
 let grid, pieces, score, best, level, xp, xpMax;
 let combo, comboTimer, linesCleared, partner, partnerHp;
-let dragging, gameOver, animCells, particles;
+let dragging = null;
+let gameOver, animCells, particles;
 let muted = false;
 
+// Web Audio API
 let audioCtx = null;
 function getAudio() {
   if (!audioCtx) {
@@ -460,10 +480,10 @@ function beep(freq, dur, type='square', vol=0.15) {
     o.start(); o.stop(ctx.currentTime + dur);
   } catch(e) {}
 }
-function sfxPlace()  { beep(440, .08); setTimeout(()=>beep(550,.06),60); }
-function sfxClear()  { [660,880,1100].forEach((f,i)=>setTimeout(()=>beep(f,.12,'sine',.2),i*60)); }
-function sfxCombo()  { [440,550,660,880].forEach((f,i)=>setTimeout(()=>beep(f,.1,'sine',.25),i*55)); }
-function sfxGameOver(){ [330,220,165].forEach((f,i)=>setTimeout(()=>beep(f,.2,'sawtooth',.2),i*150)); }
+function sfxPlace()  { beep(440, .07); setTimeout(()=>beep(580,.06),50); }
+function sfxClear()  { [660,880,1100].forEach((f,i)=>setTimeout(()=>beep(f,.12,'sine',.2),i*50)); }
+function sfxCombo()  { [440,550,660,880].forEach((f,i)=>setTimeout(()=>beep(f,.1,'sine',.25),i*50)); }
+function sfxGameOver(){ [330,220,165].forEach((f,i)=>setTimeout(()=>beep(f,.2,'sawtooth',.2),i*140)); }
 
 function toggleMute() {
   muted = !muted;
@@ -488,6 +508,7 @@ function initGame() {
   dragging     = null;
   animCells    = [];
   particles    = [];
+  dragCanvas.style.display = 'none';
   clearTimeout(comboTimer);
   document.getElementById('overlay').classList.add('hidden');
   updateUI();
@@ -506,6 +527,7 @@ function lighten(hex, p) {
   const n=parseInt(hex.replace('#',''),16);
   return '#'+[Math.min(255,(n>>16)+p),Math.min(255,((n>>8)&0xff)+p),Math.min(255,(n&0xff)+p)].map(v=>v.toString(16).padStart(2,'0')).join('');
 }
+
 function drawCell(ctx, x, y, sz, type, alpha=1) {
   if (alpha <= 0) return;
   const pad=2, r=4;
@@ -536,36 +558,44 @@ function drawGrid() {
     gctx.beginPath(); gctx.moveTo(i*CS,0); gctx.lineTo(i*CS,gc.height); gctx.stroke();
     gctx.beginPath(); gctx.moveTo(0,i*CS); gctx.lineTo(gc.width,i*CS);  gctx.stroke();
   }
-  for (let r=0; r<GRID; r++)
+  for (let r=0; r<GRID; r++) {
     for (let c=0; c<GRID; c++) {
       if (grid[r][c]) drawCell(gctx, c*CS, r*CS, CS, grid[r][c]);
       else { gctx.fillStyle='rgba(255,255,255,0.025)'; gctx.fillRect(c*CS+CS/2-1.5,r*CS+CS/2-1.5,3,3); }
     }
+  }
   for (const a of animCells) drawCell(gctx, a.c*CS, a.r*CS, CS, a.type, a.alpha);
-  if (dragging && dragging.gr >= 0) {
+
+  // Ghost preview on grid
+  if (dragging && dragging.gr >= 0 && dragging.gc >= 0) {
     const p = pieces[dragging.pi];
     if (p) {
-      for (let r=0; r<p.shape.length; r++)
-        for (let c=0; c<p.shape[r].length; c++)
+      const valid = canPlace(dragging.pi, dragging.gr, dragging.gc);
+      for (let r=0; r<p.shape.length; r++) {
+        for (let c=0; c<p.shape[r].length; c++) {
           if (p.shape[r][c]) {
-            const pr=dragging.gr+r, pc=dragging.gc+c;
-            if (pr>=0&&pr<GRID&&pc>=0&&pc<GRID)
-              drawCell(gctx, pc*CS, pr*CS, CS, p.type, canPlace(dragging.pi,dragging.gr,dragging.gc)?0.45:0.15);
+            const pr = dragging.gr + r, pc = dragging.gc + c;
+            if (pr>=0 && pr<GRID && pc>=0 && pc<GRID) {
+              if (valid) {
+                drawCell(gctx, pc*CS, pr*CS, CS, p.type, 0.45);
+              } else if (!grid[pr][pc]) {
+                // Out-of-bounds or overlap indicator
+                gctx.fillStyle = 'rgba(255, 60, 60, 0.25)';
+                roundRect(gctx, pc*CS+2, pr*CS+2, CS-4, CS-4, 4);
+                gctx.fill();
+              }
+            }
           }
+        }
+      }
     }
   }
+
+  // Particle explosion
   for (const p of particles) {
     gctx.globalAlpha = p.alpha;
     gctx.fillStyle = p.color;
     gctx.beginPath(); gctx.arc(p.x,p.y,p.r,0,Math.PI*2); gctx.fill();
-    gctx.globalAlpha = 1;
-  }
-  if (dragging && dragging.img) {
-    const rect = gc.getBoundingClientRect();
-    const px = dragging.cx - rect.left - dragging.img.width/2;
-    const py = dragging.cy - rect.top  - dragging.img.height/2;
-    gctx.globalAlpha = 0.88;
-    gctx.drawImage(dragging.img, px, py);
     gctx.globalAlpha = 1;
   }
 }
@@ -582,11 +612,19 @@ function drawPieces() {
     const sx = i*W + (W - cols*csz)/2;
     const sy = (pc.height - rows*csz)/2;
     p._px=i*W; p._pw=W; p._sx=sx; p._sy=sy; p._csz=csz;
+
     pctx.fillStyle = 'rgba(255,255,255,0.04)';
     roundRect(pctx, i*W+4,4,W-8,pc.height-8,8); pctx.fill();
-    for (let r=0; r<rows; r++)
-      for (let c=0; c<cols; c++)
-        if (p.shape[r][c]) drawCell(pctx, sx+c*csz, sy+r*csz, csz, p.type);
+
+    // If currently being dragged, draw it dimmed in the tray
+    const isThisDragged = dragging && dragging.pi === i;
+    const alpha = isThisDragged ? 0.25 : 1.0;
+
+    for (let r=0; r<rows; r++) {
+      for (let c=0; c<cols; c++) {
+        if (p.shape[r][c]) drawCell(pctx, sx+c*csz, sy+r*csz, csz, p.type, alpha);
+      }
+    }
   }
 }
 
@@ -601,55 +639,94 @@ function pieceAt(px) {
   return -1;
 }
 
-function buildDragImg(p) {
-  const csz = Math.round(CS * 0.85);
-  const rows=p.shape.length, cols=p.shape[0].length;
-  const c = document.createElement('canvas');
-  c.width=cols*csz; c.height=rows*csz;
-  const ctx=c.getContext('2d');
-  for (let r=0; r<rows; r++)
-    for (let c2=0; c2<cols; c2++)
-      if (p.shape[r][c2]) drawCell(ctx, c2*csz, r*csz, csz, p.type);
-  return c;
+// Prepare floating drag canvas with 1:1 board cell size (CS)
+function prepareDragCanvas(p) {
+  const rows = p.shape.length, cols = p.shape[0].length;
+  dragCanvas.width  = cols * CS;
+  dragCanvas.height = rows * CS;
+  dctx.clearRect(0, 0, dragCanvas.width, dragCanvas.height);
+  for (let r=0; r<rows; r++) {
+    for (let c=0; c<cols; c++) {
+      if (p.shape[r][c]) drawCell(dctx, c*CS, r*CS, CS, p.type, 1);
+    }
+  }
+  dragCanvas.style.display = 'block';
 }
 
-function startDrag(clientX, clientY, srcX) {
+// ── DRAG LOGIC (Zero-Lag & Finger Elevation) ──
+function startDrag(clientX, clientY, srcX, isTouch) {
   const idx = pieceAt(srcX);
   if (idx < 0) return;
   const p = pieces[idx];
-  const img = buildDragImg(p);
-  dragging = { pi:idx, cx:clientX, cy:clientY, gr:-1, gc:-1, img };
-  updateGhost(clientX, clientY);
+
+  prepareDragCanvas(p);
+
+  dragging = {
+    pi: idx,
+    isTouch: isTouch,
+    gr: -1,
+    gc: -1,
+    w: p.shape[0].length * CS,
+    h: p.shape.length * CS
+  };
+
+  updateDragPosition(clientX, clientY);
+  drawPieces(); // Dim tray piece
 }
 
-function updateGhost(cx, cy) {
+function updateDragPosition(clientX, clientY) {
   if (!dragging) return;
-  dragging.cx = cx; dragging.cy = cy;
-  const rect = gc.getBoundingClientRect();
   const p = pieces[dragging.pi];
   if (!p) return;
-  dragging.gr = Math.round((cy - rect.top  - p.shape.length    * CS/2) / CS);
-  dragging.gc = Math.round((cx - rect.left - p.shape[0].length * CS/2) / CS);
+
+  // On touch/phone: elevate the block by 70px above touch point so the finger never blocks the view!
+  // On desktop mouse: elevate slightly (25px) or center for razor-sharp precision
+  const offsetY = dragging.isTouch ? 72 : (dragging.h / 2);
+  const targetCenterX = clientX;
+  const targetCenterY = clientY - offsetY;
+
+  // Instant hardware-accelerated movement (0ms lag)
+  const left = targetCenterX - dragging.w / 2;
+  const top  = targetCenterY - dragging.h / 2;
+  dragCanvas.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+
+  // Calculate target grid cell based on where the piece is visibly floating
+  const rect = gc.getBoundingClientRect();
+  const pieceTopLeftX = targetCenterX - dragging.w / 2;
+  const pieceTopLeftY = targetCenterY - dragging.h / 2;
+
+  const relX = pieceTopLeftX - rect.left;
+  const relY = pieceTopLeftY - rect.top;
+
+  dragging.gc = Math.round(relX / CS);
+  dragging.gr = Math.round(relY / CS);
+
+  // Immediately redraw grid ghost for 120Hz/60Hz realtime feedback
+  drawGrid();
 }
 
 function canPlace(pi, row, col) {
   const p = pieces[pi];
   if (!p) return false;
-  for (let r=0; r<p.shape.length; r++)
-    for (let c=0; c<p.shape[r].length; c++)
+  for (let r=0; r<p.shape.length; r++) {
+    for (let c=0; c<p.shape[r].length; c++) {
       if (p.shape[r][c]) {
         const pr=row+r, pc=col+c;
         if (pr<0||pr>=GRID||pc<0||pc>=GRID||grid[pr][pc]) return false;
       }
+    }
+  }
   return true;
 }
 
 function tryPlace(pi, row, col) {
   if (!canPlace(pi, row, col)) return false;
   const p = pieces[pi];
-  for (let r=0; r<p.shape.length; r++)
-    for (let c=0; c<p.shape[r].length; c++)
+  for (let r=0; r<p.shape.length; r++) {
+    for (let c=0; c<p.shape[r].length; c++) {
       if (p.shape[r][c]) grid[row+r][col+c] = p.type;
+    }
+  }
   pieces[pi] = null;
   const cells = p.shape.flat().filter(Boolean).length;
   addScore(cells * 10 * level);
@@ -657,60 +734,57 @@ function tryPlace(pi, row, col) {
   checkLines();
   if (pieces.every(p=>p===null)) genPieces();
   checkGameOver();
-  updateUI(); render();
+  updateUI();
   return true;
 }
 
-function getPos(e) {
-  if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  if (e.changedTouches && e.changedTouches.length) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-  return { x: e.clientX, y: e.clientY };
+function endDrag() {
+  if (!dragging) return;
+  dragCanvas.style.display = 'none';
+  const placed = tryPlace(dragging.pi, dragging.gr, dragging.gc);
+  dragging = null;
+  render();
 }
 
+// ── EVENT LISTENERS (High-Performance Touch & Mouse) ──
 pc.addEventListener('touchstart', e => {
   e.preventDefault();
   if (gameOver) return;
   const r = pc.getBoundingClientRect();
   const t = e.touches[0];
-  startDrag(t.clientX, t.clientY, t.clientX - r.left);
+  startDrag(t.clientX, t.clientY, t.clientX - r.left, true);
 }, { passive:false });
 
 pc.addEventListener('mousedown', e => {
   if (gameOver) return;
   const r = pc.getBoundingClientRect();
-  startDrag(e.clientX, e.clientY, e.clientX - r.left);
+  startDrag(e.clientX, e.clientY, e.clientX - r.left, false);
 });
 
-document.addEventListener('touchmove', e => {
+window.addEventListener('touchmove', e => {
   if (!dragging) return;
   e.preventDefault();
-  const pos = getPos(e);
-  updateGhost(pos.x, pos.y);
+  const t = e.touches[0];
+  updateDragPosition(t.clientX, t.clientY);
 }, { passive:false });
 
-document.addEventListener('touchend', e => {
+window.addEventListener('touchend', e => {
   if (!dragging) return;
   e.preventDefault();
-  const pos = getPos(e);
-  updateGhost(pos.x, pos.y);
-  const placed = tryPlace(dragging.pi, dragging.gr, dragging.gc);
-  dragging = null;
-  if (!placed) render();
+  endDrag();
 }, { passive:false });
 
-document.addEventListener('mousemove', e => {
+window.addEventListener('mousemove', e => {
   if (!dragging) return;
-  updateGhost(e.clientX, e.clientY);
+  updateDragPosition(e.clientX, e.clientY);
 });
 
-document.addEventListener('mouseup', e => {
+window.addEventListener('mouseup', e => {
   if (!dragging) return;
-  updateGhost(e.clientX, e.clientY);
-  const placed = tryPlace(dragging.pi, dragging.gr, dragging.gc);
-  dragging = null;
-  if (!placed) render();
+  endDrag();
 });
 
+// ── LINE CLEARING & BONUSES ──
 function checkLines() {
   const rows=[], cols=[];
   for (let r=0; r<GRID; r++) if (grid[r].every(c=>c!==null)) rows.push(r);
@@ -737,7 +811,7 @@ function animClear(cells, rows, cols, n) {
     f++;
     if (f>=6) { clearInterval(iv); animCells=[]; doLineClear(rows,cols,n); }
     drawGrid();
-  }, 70);
+  }, 60);
 }
 
 function doLineClear(rows, cols, n) {
@@ -781,14 +855,18 @@ function checkLevel() {
 function checkGameOver() {
   for (let i=0; i<3; i++) {
     if (!pieces[i]) continue;
-    for (let r=0; r<GRID; r++) for (let c=0; c<GRID; c++) if (canPlace(i,r,c)) return;
+    for (let r=0; r<GRID; r++) {
+      for (let c=0; c<GRID; c++) {
+        if (canPlace(i,r,c)) return;
+      }
+    }
   }
   sfxGameOver();
   gameOver = true;
   document.getElementById('goPartner').textContent = partner.emoji + ' ' + partner.name + ' fainted!';
   document.getElementById('goScore').textContent   = 'Score: ' + score.toLocaleString();
   document.getElementById('goBest').textContent    = 'Best:  ' + best.toLocaleString();
-  setTimeout(()=>document.getElementById('overlay').classList.remove('hidden'), 700);
+  setTimeout(()=>document.getElementById('overlay').classList.remove('hidden'), 600);
 }
 
 function restartGame() { initGame(); }
@@ -847,7 +925,10 @@ function updateParticles() {
 }
 
 function loop() {
-  if (!gameOver) { updateParticles(); drawGrid(); if (!dragging) drawPieces(); }
+  if (!gameOver) {
+    updateParticles();
+    drawGrid();
+  }
   requestAnimationFrame(loop);
 }
 
@@ -856,7 +937,8 @@ function onResize() {
   drawGrid();
   drawPieces();
 }
-window.addEventListener('resize', ()=>{ clearTimeout(window._rt); window._rt=setTimeout(onResize,120); });
+window.addEventListener('resize', ()=>{ clearTimeout(window._rt); window._rt=setTimeout(onResize,100); });
+window.addEventListener('orientationchange', ()=>{ setTimeout(onResize, 150); });
 
 document.addEventListener('keydown', e => { if(e.key==='r'||e.key==='R') restartGame(); });
 
