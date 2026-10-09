@@ -297,60 +297,144 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
 .go-scores{display:flex;justify-content:center;gap:20px;margin-bottom:10px}
 .go-actions{display:flex;gap:8px}.go-actions .btn{flex:1;padding:12px 6px}
 .go-hint{font-size:12px;font-weight:600;color:#9fb0d8;margin-top:8px}
+
+/* ═══ CLEAN UI v2 ═══ */
+:root{--accent:#FFC83D;--accent2:#4DE1C1;--bg:#0e1126;--bg2:#1a2050;--surface:#171c40;--surface2:#222a5e;
+  --text:#F4F6FF;--muted:#A9B1D6;--line:rgba(255,255,255,.11);--yellow:var(--accent);--gold:var(--accent);--neon:var(--accent2);--theme-glow:rgba(0,0,0,0)}
+body{background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg) 62%) !important;color:var(--text)}
+body::before{display:none}
+#app{padding:0 8px}
+#topbar{background:none;border:none;box-shadow:none;padding:6px 2px 4px;margin:0;justify-content:space-between}
+.logo{justify-content:flex-start}
+.logo svg{width:34px}.logo-name{font-size:clamp(20px,6vw,26px);color:var(--text)}.logo-sub{display:none}
+.tb-actions{display:flex;gap:8px}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.icon-btn:active{transform:scale(.94);background:var(--surface2)}
+#hud{display:flex;gap:8px;width:100%;flex-shrink:0}
+.score-main{flex:1.5;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px 14px;display:flex;flex-direction:column;justify-content:center}
+.score-main b{font-family:'Teko',sans-serif;font-weight:700;font-size:clamp(40px,12vw,56px);line-height:.95;color:var(--accent)}
+.hl{font-size:11px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
+.hud-side{flex:1;display:flex;flex-direction:column;gap:6px}
+.chip{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:2px 12px;display:flex;justify-content:space-between;align-items:center}
+.chip b{font-family:'Teko',sans-serif;font-weight:600;font-size:23px;color:var(--text)}
+.xpwrap{width:100%;height:5px;background:rgba(255,255,255,.08);border:none;margin:8px 0 5px}
+.xpfill{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+#subhud{display:flex;gap:16px;width:100%;padding:0 4px 4px;flex-shrink:0;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:1px}
+#subhud b{color:var(--text);font-size:14px;margin-left:3px}
+#timerContainer{width:100%;margin:0 0 4px}
+.timer-label{color:var(--muted)}.timer-val{color:var(--accent2) !important;text-shadow:none !important}
+.timer-track{height:5px;border:none;background:rgba(255,255,255,.08);box-shadow:none}
+.timer-fill{background:var(--accent2)}
+.gbox{background:rgba(0,0,0,.38);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 34px rgba(0,0,0,.45)}
+.pbox{background:var(--surface);border:1px solid var(--line);box-shadow:none;border-radius:16px}
+.pboxlabel{color:var(--muted);text-shadow:none;font-size:11px}
+#dragCanvas{filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.btn{background:var(--surface2);color:var(--text);border:1px solid var(--line);box-shadow:0 3px 0 rgba(0,0,0,.35);border-radius:12px}
+.btn-green,.go-actions .btn:first-child{background:var(--accent);color:#14161f;border-color:transparent;box-shadow:0 3px 0 rgba(0,0,0,.4)}
+.vol-box{background:var(--surface);border:1px solid var(--line)}
+.vol-slider{border:none}
+.modal{background:var(--surface);border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.65)}
+.modal-overlay{background:rgba(4,6,15,.8)}
+.mtitle{color:var(--text);text-shadow:none}.msub{color:var(--muted)}
+.mscore{color:var(--accent)}
+.sound-sect{background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.sound-sect-title{border-bottom:1px solid var(--line)}
+.settings-tabs{flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.stab-btn{flex:1 1 30%;background:rgba(255,255,255,.05);border:1px solid var(--line);padding:8px 2px}
+.stab-btn.active{background:var(--accent);color:#14161f;border-color:var(--accent);box-shadow:none}
+.theme-card{background:rgba(255,255,255,.04);border:2px solid var(--line)}
+.theme-card.active,.theme-card:hover{border-color:var(--accent);box-shadow:none;background:rgba(255,255,255,.09)}
+.theme-title{color:var(--text)}
+input:checked + .slider-tgl{background-color:var(--accent2)}
+.slider-tgl{border-color:var(--line)}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.opt-row .vol-slider{max-width:150px}
+.opt-row input[type=color]{width:38px;height:30px;border:none;background:none;padding:0;cursor:pointer}
+.setting-name b{color:var(--accent);margin-left:4px}
+.go-hint{color:var(--muted)}
+
+.msub:empty{display:none}
+#timerModeText{display:none}
+.timer-label span{font-size:15px}
+.go-card{padding:26px 16px 14px}
+.go-x{width:42px;height:42px;font-size:22px;top:8px;right:8px;background:var(--surface2)}
+.go-scores{gap:30px;margin:6px 0 14px}
+.go-scores>div{text-align:center}
+.go-scores .mscore{font-size:38px;line-height:1.05;color:var(--text);margin:0}
+#goScore{color:var(--accent) !important}
+
+.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.22em;flex-shrink:0;pointer-events:none}
+.icon-btn .ic{width:22px;height:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.vol-btn{display:flex;align-items:center;color:var(--text)}.vol-btn .ic{width:22px;height:22px}
+.big-ic{width:46px;height:46px;color:var(--accent);margin-bottom:8px;display:block;margin-left:auto;margin-right:auto}
+.stab-btn{display:flex;align-items:center;justify-content:center;gap:5px}
+.btn-play-sound{display:inline-flex;align-items:center;gap:4px}
+.timer-label{display:flex;align-items:center}
+.go-x{display:flex;align-items:center;justify-content:center;padding:0}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-pause" viewBox="0 0 24 24"><rect x="5" y="4" width="4.5" height="16" rx="1.6" fill="currentColor" stroke="none"/><rect x="14.5" y="4" width="4.5" height="16" rx="1.6" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.500A1 1 0 0 0 7 4.500z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.400 15a1.650 1.650 0 0 0 .33 1.820l.06.060a2 2 0 0 1 0 2.830 2 2 0 0 1-2.830 0l-.06-.06a1.650 1.650 0 0 0-1.820-.33 1.650 1.650 0 0 0-1 1.510V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.650 1.650 0 0 0 9 19.400a1.650 1.650 0 0 0-1.820.33l-.06.06a2 2 0 0 1-2.830 0 2 2 0 0 1 0-2.830l.06-.06a1.650 1.650 0 0 0 .33-1.820 1.650 1.650 0 0 0-1.510-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.650 1.650 0 0 0 4.600 9a1.650 1.650 0 0 0-.33-1.820l-.06-.06a2 2 0 0 1 0-2.830 2 2 0 0 1 2.830 0l.06.06a1.650 1.650 0 0 0 1.820.33H9a1.650 1.650 0 0 0 1-1.510V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.650 1.650 0 0 0 1 1.510 1.650 1.650 0 0 0 1.820-.33l.06-.06a2 2 0 0 1 2.830 0 2 2 0 0 1 0 2.830l-.06.06a1.650 1.650 0 0 0-.33 1.820V9a1.650 1.650 0 0 0 1.510 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.650 1.650 0 0 0-1.510 1z"/></symbol>
+<symbol id="i-restart" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.700L3 8"/><path d="M3 3v5h5"/></symbol>
+<symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.200 0 1.800-.8 1.500-1.800-.4-1.200.4-2.200 1.600-2.200H17a4 4 0 0 0 4-4c0-5-4-10-9-10z"/><circle cx="7.500" cy="11" r="1.100" fill="currentColor"/><circle cx="11" cy="7" r="1.100" fill="currentColor"/><circle cx="16" cy="8" r="1.100" fill="currentColor"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke-width="2.800"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4.500 12.500l5 5L19.500 7" stroke-width="3"/></symbol>
+<symbol id="i-vol0" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M17 9.500l5 5M22 9.500l-5 5"/></symbol>
+<symbol id="i-vol1" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.500 9a4 4 0 0 1 0 6"/></symbol>
+<symbol id="i-vol2" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.500 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></symbol>
+<symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.500" r="8"/><path d="M12 9.500v4.500l2.800 1.800M9.500 2.500h5"/></symbol>
+<symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5.500l11-2V16"/><circle cx="6.500" cy="18" r="2.600" fill="currentColor"/><circle cx="17.500" cy="16" r="2.600" fill="currentColor"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.500" y="3.500" width="7" height="7" rx="1.800"/><rect x="13.500" y="3.500" width="7" height="7" rx="1.800"/><rect x="3.500" y="13.500" width="7" height="7" rx="1.800"/><rect x="13.500" y="13.500" width="7" height="7" rx="1.800"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.200 6.800L21 12l-6.800 2.200L12 21l-2.200-6.800L3 12l6.800-2.200z" fill="currentColor" stroke="none"/><path d="M19 3v4M17 5h4" stroke-width="1.800"/></symbol>
+</defs></svg>
 <div id="app">
-  <div id="topbar">
-    <div class="sbox"><div class="slabel">SCORE</div><div class="sval" id="scoreVal">0</div></div>
-    <div class="title-wrap"><div class="logo">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lgB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF59A"/><stop offset="1" stop-color="#FF7A00"/></linearGradient></defs>
-          <rect x="2.5" y="2.5" width="43" height="43" rx="12" fill="#0b1030" stroke="url(#lgB)" stroke-width="3"/>
-          <path d="M27 6 12 27h9l-3 15 18-23H26z" fill="url(#lgB)" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/></svg>
-        <div class="logo-txt"><div class="logo-name">FLASH<b>GO</b></div><div class="logo-sub">BLOCK PUZZLE</div></div>
-      </div></div>
-    <div class="sbox"><div class="slabel">BEST</div><div class="sval" id="bestVal">0</div></div>
-    <button id="btnSettings" class="btn-gear" onclick="openSettingsModal()" title="Cài đặt">⚙️</button>
-  </div>
-
-  <div id="statrow">
-    <div class="partner">
-      <span id="pEmoji">⚡</span>
-      <div><div class="pname" id="pName">SPARK</div><div class="hpbar"><div class="hpfill" id="hpFill"></div></div></div>
+  <header id="topbar">
+    <div class="logo">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lgB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF59A"/><stop offset="1" stop-color="#FF7A00"/></linearGradient></defs>
+        <rect x="2.5" y="2.5" width="43" height="43" rx="12" fill="#0b1030" stroke="url(#lgB)" stroke-width="3"/>
+        <path d="M27 6 12 27h9l-3 15 18-23H26z" fill="url(#lgB)" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      <div class="logo-txt"><div class="logo-name">FLASH<b>GO</b></div></div>
     </div>
-    <div class="stat-group">
-      <div class="pill"><span class="plabel">LV</span><span class="pval" id="lvVal">1</span></div>
-      <div class="pill"><span class="plabel">COMBO</span><span class="pval" id="comboVal" style="color:var(--yellow)">x1</span></div>
-      <div class="pill"><span class="plabel">LINES</span><span class="pval" id="linesVal">0</span></div>
+    <div class="tb-actions">
+      <button class="icon-btn" onclick="pauseGame()" title="Tạm dừng"><svg class="ic"><use href="#i-pause"/></svg></button>
+      <button id="btnSettings" class="icon-btn" onclick="openSettingsModal()" title="Cài đặt"><svg class="ic"><use href="#i-gear"/></svg></button>
     </div>
-  </div>
-
-  <!-- 5-SECOND TIMER BAR (RUSH MODE) -->
+  </header>
+  <section id="hud">
+    <div class="score-main"><span class="hl">ĐIỂM</span><b id="scoreVal">0</b></div>
+    <div class="hud-side">
+      <div class="chip"><span class="hl">CAO NHẤT</span><b id="bestVal">0</b></div>
+      <div class="chip"><span class="hl">CẤP</span><b id="lvVal">1</b></div>
+    </div>
+  </section>
+  <div class="xpwrap"><div class="xpfill" id="xpFill" style="width:0%"></div></div>
+  <div id="subhud"><span>COMBO<b id="comboVal">x1</b></span><span>HÀNG<b id="linesVal">0</b></span></div>
   <div id="timerContainer">
     <div class="timer-header">
-      <div class="timer-label"><span>⚡ 5S RUSH:</span> <span id="timerModeText">ĐANG BẬT</span></div>
+      <div class="timer-label"><span><svg class="ic"><use href="#i-timer"/></svg></span><span id="timerModeText"></span></div>
       <div class="timer-val" id="timerSecondsText">5.0s</div>
     </div>
-    <div class="timer-track" id="timerTrack">
-      <div class="timer-fill" id="timerFill"></div>
-    </div>
+    <div class="timer-track" id="timerTrack"><div class="timer-fill" id="timerFill"></div></div>
   </div>
-
-  <div class="xpwrap"><div class="xpfill" id="xpFill" style="width:0%"></div></div>
+  <div style="display:none"><span id="pEmoji"></span><span id="pName"></span><div id="hpFill"></div></div>
 
   <div id="canvwrap">
     <div class="gbox" id="gbox"><canvas id="gameCanvas" touch-action="none"></canvas></div>
     <div class="pbox">
-      <div class="pboxlabel">— KHỐI NĂNG LƯỢNG —</div>
+      
       <canvas id="piecesCanvas" touch-action="none"></canvas>
     </div>
   </div>
 
   <div id="btnrow">
-    <button class="btn" onclick="restartGame()">↺ LÀM LẠI</button>
-    <button class="btn btn-settings" onclick="pauseGame()">⏸ TẠM DỪNG</button>
+    <button class="btn" onclick="restartGame()"><svg class="ic"><use href="#i-restart"/></svg>LÀM LẠI</button>
+    <button class="btn btn-settings" onclick="openCustomize('tab-block')"><svg class="ic"><use href="#i-palette"/></svg>TÙY CHỈNH</button>
     <div class="vol-box">
-      <button class="vol-btn" id="volIconBtn" onclick="toggleMuteDirect()">🔊</button>
+      <button class="vol-btn" id="volIconBtn" onclick="toggleMuteDirect()"><svg class="ic"><use href="#i-vol2"/></svg></button>
       <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="85" oninput="onVolumeChange(this.value)">
     </div>
   </div>
@@ -362,28 +446,26 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
 <!-- GAME OVER OVERLAY -->
 <div id="overlay" class="modal-overlay go-sheet hidden">
   <div class="modal go-card">
-    <button class="go-x" onclick="closeGameOverCard()" aria-label="Đóng">✕</button>
-    <div class="mtitle" id="goTitle">HẾT LƯỢT!</div>
+    <button class="go-x" onclick="closeGameOverCard()" aria-label="Đóng"><svg class="ic"><use href="#i-close"/></svg></button>
+    <div class="mtitle" id="goTitle">HẾT CHỖ</div>
     <div class="msub" id="goPartner">Đối tác đã kiệt sức...</div>
-    <div class="go-scores"><div class="mscore" id="goScore">Điểm: 0</div><div class="mscore" id="goBest">Cao nhất: 0</div></div>
+    <div class="go-scores"><div><span class="hl">ĐIỂM</span><div class="mscore" id="goScore">0</div></div><div><span class="hl">CAO NHẤT</span><div class="mscore" id="goBest">0</div></div></div>
     <div class="go-actions">
-      <button class="btn" onclick="restartGame()">▶ CHƠI LẠI</button>
-      <button class="btn btn-settings" onclick="openSettingsModal()">⚙️ CÀI ĐẶT</button>
+      <button class="btn" onclick="restartGame()"><svg class="ic"><use href="#i-play"/></svg>CHƠI LẠI</button>
+      <button class="btn btn-settings" onclick="openSettingsModal()"><svg class="ic"><use href="#i-gear"/></svg>CÀI ĐẶT</button>
     </div>
-    <div class="go-hint">Bấm ✕ để xem lại bàn chơi hoặc đổi giao diện — ván mới chỉ bắt đầu khi bạn muốn.</div>
   </div>
 </div>
 
 <!-- PAUSE OVERLAY -->
 <div id="pauseOverlay" class="modal-overlay hidden">
   <div class="modal">
-    <span class="modal-pb" style="animation:none">⏸</span>
+    <svg class="ic big-ic"><use href="#i-pause"/></svg>
     <div class="mtitle">TẠM DỪNG</div>
-    <div class="msub">Thời gian đã dừng — chỉnh giao diện thoải mái!</div>
     <div class="menu-stack">
-      <button class="btn btn-green" onclick="resumeGame()">▶ TIẾP TỤC</button>
-      <button class="btn btn-settings" onclick="openSettingsModal()">⚙️ CÀI ĐẶT &amp; GIAO DIỆN</button>
-      <button class="btn" onclick="restartGame()">↺ CHƠI LẠI</button>
+      <button class="btn btn-green" onclick="resumeGame()"><svg class="ic"><use href="#i-play"/></svg>TIẾP TỤC</button>
+      <button class="btn btn-settings" onclick="openSettingsModal()"><svg class="ic"><use href="#i-gear"/></svg>CÀI ĐẶT</button>
+      <button class="btn" onclick="restartGame()"><svg class="ic"><use href="#i-restart"/></svg>CHƠI LẠI</button>
     </div>
   </div>
 </div>
@@ -392,41 +474,31 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
 <div id="settingsOverlay" class="modal-overlay hidden">
   <div class="modal" style="text-align:left">
     <div style="text-align:center;margin-bottom:10px">
-      <div class="mtitle">⚙️ CÀI ĐẶT</div>
-      <div class="msub" style="font-size:13px;color:#00FFCC">Tùy chỉnh Trò chơi &amp; Trải nghiệm</div>
+      <div class="mtitle">CÀI ĐẶT</div>
+      
     </div>
 
     <!-- Tabs -->
     <div class="settings-tabs">
-      <button class="stab-btn active" onclick="switchSettingTab('tab-mode')">⏱️ CHẾ ĐỘ</button>
-      <button class="stab-btn" onclick="switchSettingTab('tab-sound')">🎵 ÂM THANH</button>
-      <button class="stab-btn" onclick="switchSettingTab('tab-theme')">🎨 GIAO DIỆN</button>
-      <button class="stab-btn" onclick="switchSettingTab('tab-fx')">✨ HIỆU ỨNG</button>
+      <button class="stab-btn active" onclick="switchSettingTab('tab-mode')"><svg class="ic"><use href="#i-timer"/></svg>CHẾ ĐỘ</button>
+      <button class="stab-btn" onclick="switchSettingTab('tab-sound')"><svg class="ic"><use href="#i-music"/></svg>ÂM THANH</button>
+      <button class="stab-btn" onclick="switchSettingTab('tab-theme')"><svg class="ic"><use href="#i-palette"/></svg>GIAO DIỆN</button>
+      <button class="stab-btn" onclick="switchSettingTab('tab-block')"><svg class="ic"><use href="#i-grid"/></svg>KHỐI</button>
+      <button class="stab-btn" onclick="switchSettingTab('tab-fx')"><svg class="ic"><use href="#i-spark"/></svg>HIỆU ỨNG</button>
     </div>
 
     <!-- Panel 1: Mode & 5s Timer -->
     <div id="tab-mode" class="set-panel active">
       <div class="sound-sect">
-        <div class="sound-sect-title">⏱️ ĐẾM THỜI GIAN (5S RUSH)</div>
+        <div class="sound-sect-title">THỜI GIAN ĐẶT KHỐI</div>
         <div class="setting-row">
-          <div class="setting-name">
-            <span>⚡ Chế độ 5s Thần Tốc</span>
-            <span class="setting-desc">Quá 5.0s chưa đặt khối ➔ TỰ THUA!</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="chkTimerRush" onchange="toggleTimerRush(this.checked)">
-            <span class="slider-tgl"></span>
-          </label>
+          <div class="setting-name"><span>Giới hạn thời gian</span></div>
+          <label class="switch"><input type="checkbox" id="chkTimerRush" onchange="toggleTimerRush(this.checked)"><span class="slider-tgl"></span></label>
         </div>
+        <div class="opt-row"><div class="setting-name"><span>Thời gian mỗi lượt<b id="vRush"></b></span></div><input type="range" class="vol-slider" id="sRush" min="1" max="15" step="1" oninput="setRushLimit(this.value)"></div>
         <div class="setting-row" style="border:none">
-          <div class="setting-name">
-            <span>🔔 Tiếng Tíc Tắc Khẩn Cấp</span>
-            <span class="setting-desc">Phát âm tíc tắc khi thời gian &lt; 2s</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="chkTickSound" checked onchange="toggleTickSound(this.checked)">
-            <span class="slider-tgl"></span>
-          </label>
+          <div class="setting-name"><span>Tiếng tíc tắc</span></div>
+          <label class="switch"><input type="checkbox" id="chkTickSound" checked onchange="toggleTickSound(this.checked)"><span class="slider-tgl"></span></label>
         </div>
       </div>
     </div>
@@ -435,182 +507,181 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
     <div id="tab-sound" class="set-panel">
       <!-- Group 1: Place sounds -->
       <div class="sound-sect">
-        <div class="sound-sect-title">🧱 ÂM THANH ĐẶT KHỐI (8 KIỂU)</div>
+        <div class="sound-sect-title">ÂM THANH ĐẶT KHỐI</div>
         
         <div class="sound-item" id="item-place-A1">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A1" onchange="selectPlaceSfx('A1')">
-            <span>A1. Pop Mềm (Bong bóng nhẹ)</span>
+            <span>A1. Pop Bật</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A1')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A1')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A2">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A2" onchange="selectPlaceSfx('A2')">
-            <span>A2. Gõ Gỗ (Trầm ấm)</span>
+            <span>A2. Gõ Gỗ</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A2')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A2')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A3">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A3" onchange="selectPlaceSfx('A3')">
-            <span>A3. Marimba (Nốt gõ trong trẻo)</span>
+            <span>A3. Marimba</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A3')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A3')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A4">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A4" onchange="selectPlaceSfx('A4')">
-            <span>A4. Pha Lê (Kính ngân vang)</span>
+            <span>A4. Pha Lê</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A4')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A4')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A5">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A5" onchange="selectPlaceSfx('A5')">
-            <span>A5. Thùng Trầm (Nặng, chắc tay)</span>
+            <span>A5. Thùng Trầm</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A5')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A5')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A6">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A6" onchange="selectPlaceSfx('A6')">
-            <span>A6. Bong Bóng (Nảy lên vui tai)</span>
+            <span>A6. Bong Bóng</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A6')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A6')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A7">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A7" onchange="selectPlaceSfx('A7')">
-            <span>A7. 8-Bit (Game retro)</span>
+            <span>A7. 8-Bit</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A7')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A7')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-place-A8">
           <label class="sound-label">
             <input type="radio" name="placeRadio" value="A8" onchange="selectPlaceSfx('A8')">
-            <span>A8. Đòn Đánh (Vút + va chạm)</span>
+            <span>A8. Đòn Đánh</span>
           </label>
-          <button class="btn-play-sound" onclick="playPlaceSound('A8')">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playPlaceSound('A8')"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
       </div>
 
       <!-- Group 2: Clear sounds -->
       <div class="sound-sect">
-        <div class="sound-sect-title">💥 ÂM THANH ĂN HÀNG (8 KIỂU)</div>
+        <div class="sound-sect-title">ÂM THANH ĂN HÀNG</div>
         
         <div class="sound-item" id="item-clear-B1">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B1" onchange="selectClearSfx('B1')">
-            <span>B1. Chuông Ngân (Nốt chạy lên)</span>
+            <span>B1. Chuông Lướt</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B1', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B1', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B2">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B2" onchange="selectClearSfx('B2')">
-            <span>B2. Lấp Lánh (Sao rơi)</span>
+            <span>B2. Mưa Sao</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B2', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B2', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B3">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B3" onchange="selectClearSfx('B3')">
-            <span>B3. Đàn Hạc (Lướt nốt)</span>
+            <span>B3. Đàn Hạc</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B3', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B3', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B4">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B4" onchange="selectClearSfx('B4')">
-            <span>B4. Power-Up (Retro 8-bit)</span>
+            <span>B4. Power-Up</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B4', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B4', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B5">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B5" onchange="selectClearSfx('B5')">
-            <span>B5. Whoosh + Chuông</span>
+            <span>B5. Bùng Nổ</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B5', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B5', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B6">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B6" onchange="selectClearSfx('B6')">
-            <span>B6. Hợp Âm Vang (Fanfare)</span>
+            <span>B6. Fanfare</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B6', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B6', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B7">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B7" onchange="selectClearSfx('B7')">
-            <span>B7. Synth Dâng (Năng lượng lên)</span>
+            <span>B7. Synth Dâng</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B7', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B7', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
 
         <div class="sound-item" id="item-clear-B8">
           <label class="sound-label">
             <input type="radio" name="clearRadio" value="B8" onchange="selectClearSfx('B8')">
-            <span>B8. Đồng Xu (Coin vàng)</span>
+            <span>B8. Đồng Xu</span>
           </label>
-          <button class="btn-play-sound" onclick="playClearSound('B8', 2)">▶ THỬ</button>
+          <button class="btn-play-sound" onclick="playClearSound('B8', 2)"><svg class="ic"><use href="#i-play"/></svg>THỬ</button>
         </div>
       </div>
 
       <div style="margin-top:6px">
-        <button class="btn" onclick="testComboAudio()" style="background:linear-gradient(145deg,#0091EA,#01579B);color:#FFF;width:100%">🎮 THỬ CẢ 2 ÂM (ĐẶT + ĂN)</button>
+        <button class="btn" onclick="testComboAudio()" style="background:linear-gradient(145deg,#0091EA,#01579B);color:#FFF;width:100%"><svg class="ic"><use href="#i-play"/></svg>NGHE THỬ</button>
       </div>
     </div>
 
     <!-- Panel 3: Themes -->
     <div id="tab-theme" class="set-panel">
       <div class="sound-sect">
-        <div class="sound-sect-title">🎨 CHỦ ĐỀ GIAO DIỆN (THEMES)</div>
-        <div class="theme-grid" id="themeGrid">
-          <div class="theme-card active" id="th-cyber" onclick="setGameTheme('cyber')">
-            <div class="theme-preview" style="background:linear-gradient(90deg,#192557,#0c122e)"></div>
-            <div class="theme-title">🌌 Cyber Nebula</div>
-          </div>
-          <div class="theme-card" id="th-kanto" onclick="setGameTheme('kanto')">
-            <div class="theme-preview" style="background:linear-gradient(90deg,#3d1015,#1f0709)"></div>
-            <div class="theme-title">🔴 Crimson Fire</div>
-          </div>
-          <div class="theme-card" id="th-hoenn" onclick="setGameTheme('hoenn')">
-            <div class="theme-preview" style="background:linear-gradient(90deg,#0e3823,#061c11)"></div>
-            <div class="theme-title">🌲 Emerald Forest</div>
-          </div>
-          <div class="theme-card" id="th-dark" onclick="setGameTheme('dark')">
-            <div class="theme-preview" style="background:linear-gradient(90deg,#18152e,#0a0914)"></div>
-            <div class="theme-title">🌑 Dark Void</div>
-          </div>
+        <div class="sound-sect-title">MÀU GIAO DIỆN</div>
+        <div class="theme-grid" id="themeGrid"></div>
+        <div class="opt-row" style="border:none;margin-top:6px">
+          <div class="setting-name"><span>Màu nhấn riêng</span><span class="setting-desc">Màu của điểm số, nút chính, viền chọn</span></div>
+          <div style="display:flex;gap:6px;align-items:center"><input type="color" id="accentPick" oninput="onAccent(this.value)"><button class="btn-play-sound" onclick="onAccent(null)">MẶC ĐỊNH</button></div>
         </div>
-        <div class="sound-sect-title" style="margin-top:14px">🧱 KIỂU VIÊN KHỐI</div>
-        <div class="theme-grid" id="skinGrid"></div>
+      </div>
+    </div>
+
+    <!-- Panel: Blocks -->
+    <div id="tab-block" class="set-panel">
+      <div class="sound-sect"><div class="sound-sect-title">KIỂU KHỐI</div><div class="theme-grid" id="skinGrid"></div></div>
+      <div class="sound-sect"><div class="sound-sect-title">BẢNG MÀU KHỐI</div><div class="theme-grid" id="paletteGrid"></div></div>
+      <div class="sound-sect">
+        <div class="sound-sect-title">TINH CHỈNH</div>
+        <div class="opt-row"><div class="setting-name"><span>Bo góc<b id="vRound"></b></span></div><div style="display:flex;gap:6px;align-items:center"><input type="range" class="vol-slider" id="sRound" min="0" max="100" oninput="onOpt('round',this.value)"><button class="btn-play-sound" onclick="onOpt('round',null)">AUTO</button></div></div>
+        <div class="opt-row"><div class="setting-name"><span>Độ bóng<b id="vGloss"></b></span></div><input type="range" class="vol-slider" id="sGloss" min="0" max="100" oninput="onOpt('gloss',this.value)"></div>
+        <div class="opt-row"><div class="setting-name"><span>Khoảng cách ô<b id="vGap"></b></span></div><input type="range" class="vol-slider" id="sGap" min="0" max="6" step="1" oninput="onOpt('gap',this.value)"></div>
+        <div class="opt-row"><div class="setting-name"><span>Biểu tượng hệ trên khối</span><span class="setting-desc">Lửa, nước, điện... in giữa mỗi ô</span></div><label class="switch"><input type="checkbox" id="chkEmblem" onchange="onOpt('emblem',this.checked)"><span class="slider-tgl"></span></label></div>
+        <div class="opt-row" style="border:none"><div class="setting-name"><span>Khôi phục mặc định</span></div><button class="btn-play-sound" onclick="resetOpts()">ĐẶT LẠI</button></div>
       </div>
     </div>
 
     <!-- Panel 4: VFX Settings -->
     <div id="tab-fx" class="set-panel">
+      <div class="sound-sect"><div class="sound-sect-title">HIỆU ỨNG ĂN KHỐI</div><div class="theme-grid" id="fxGrid"></div></div>
       <div class="sound-sect">
-        <div class="sound-sect-title">✨ HIỆU ỨNG HÌNH ẢNH (VFX)</div>
+        <div class="sound-sect-title">HIỆU ỨNG HÌNH ẢNH (VFX)</div>
         <div class="setting-row">
           <div class="setting-name">
-            <span>📳 Rung Màn Hình (Screen Shake)</span>
-            <span class="setting-desc">Rung chấn khi ăn nhiều hàng</span>
+            <span>Rung Màn Hình</span>
           </div>
           <label class="switch">
             <input type="checkbox" id="chkShakeFx" checked onchange="toggleShakeFx(this.checked)">
@@ -619,8 +690,7 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
         </div>
         <div class="setting-row">
           <div class="setting-name">
-            <span>⚡ Tia Laser Quét Hàng</span>
-            <span class="setting-desc">Tia sáng quét ngang/dọc khi xóa hàng</span>
+            <span>Tia Laser Quét Hàng</span>
           </div>
           <label class="switch">
             <input type="checkbox" id="chkLaserFx" checked onchange="toggleLaserFx(this.checked)">
@@ -629,8 +699,7 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
         </div>
         <div class="setting-row" style="border:none">
           <div class="setting-name">
-            <span>✨ Bụi Hạt Tinh Thể (Particles)</span>
-            <span class="setting-desc">Mảnh vỡ tinh thể kim cương và sao vàng</span>
+            <span>Bụi Hạt Tinh Thể</span>
           </div>
           <label class="switch">
             <input type="checkbox" id="chkParticlesFx" checked onchange="toggleParticlesFx(this.checked)">
@@ -641,7 +710,7 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
     </div>
 
     <div style="margin-top:10px">
-      <button class="btn" onclick="closeSettingsModal()" style="background:linear-gradient(145deg,#00C853,#1B5E20);color:#FFF;padding:12px;width:100%">✔ XONG</button>
+      <button class="btn" onclick="closeSettingsModal()" style="background:linear-gradient(145deg,#00C853,#1B5E20);color:#FFF;padding:12px;width:100%"><svg class="ic"><use href="#i-check"/></svg>XONG</button>
     </div>
   </div>
 </div>
@@ -649,6 +718,8 @@ input:checked + .slider-tgl:before{transform:translateX(18px)}
 <script>
 'use strict';
 
+const GC = { line:'rgba(255,255,255,.07)', accent:'#FFC83D' };
+const byId = id => document.getElementById(id);
 const GRID    = 9;
 const N_SLOTS = 4;
 const DPR     = Math.min(window.devicePixelRatio || 1, 3);
@@ -749,15 +820,15 @@ let muted = false;
 // ── SETTINGS CONFIG (PERSISTENT) ─────────────
 let curPlaceSfx = localStorage.getItem('pkblast_place_sfx') || 'A1';
 let curClearSfx = localStorage.getItem('pkblast_clear_sfx') || 'B1';
-let curTheme    = localStorage.getItem('pkblast_theme') || 'cyber';
-let timerRushOn = localStorage.getItem('pkblast_timer_rush') !== 'false'; // Default TRUE
+let curTheme    = localStorage.getItem('pkblast_theme') || 'midnight';
+let timerRushOn = localStorage.getItem('flashgo_timer') !== 'false'; // mặc định BẬT
 let tickSoundOn = localStorage.getItem('pkblast_tick_sfx') !== 'false';
 let shakeFxOn   = localStorage.getItem('pkblast_fx_shake') !== 'false';
 let laserFxOn   = localStorage.getItem('pkblast_fx_laser') !== 'false';
 let particleFxOn= localStorage.getItem('pkblast_fx_particles') !== 'false';
 
 // ── 5-SECOND RUSH TIMER STATE ────────────────
-const RUSH_TIME_LIMIT = 5.0; // 5 seconds
+let RUSH_TIME_LIMIT = Math.min(15,Math.max(1,parseInt(localStorage.getItem('flashgo_rush_sec'))||5));
 let rushTimeLeft = RUSH_TIME_LIMIT;
 let lastFrameTime = performance.now();
 let lastTickSec = 5;
@@ -814,16 +885,8 @@ function toggleMuteDirect(){
 }
 
 function updateVolumeUI(){
-  const icon = document.getElementById('volIconBtn');
-  if(muted || volume === 0){
-    icon.textContent = '🔇';
-  } else if(volume < 0.4){
-    icon.textContent = '🔈';
-  } else if(volume < 0.75){
-    icon.textContent = '🔉';
-  } else {
-    icon.textContent = '🔊';
-  }
+  const lv = (muted || volume === 0) ? 0 : (volume < 0.5 ? 1 : 2);
+  byId('volIconBtn').innerHTML = '<svg class="ic"><use href="#i-vol'+lv+'"/></svg>';
 }
 
 // ── SOUND ENGINE v2 (synth + reverb) ─────────
@@ -857,41 +920,54 @@ function audioReady(){
   return c;
 }
 
-// 8 kiểu âm đặt khối
+function pitchUp(){ const cb=Math.min(Math.max(1,(typeof combo==='number'?combo:1))-1,7); return Math.pow(2,cb*2/12); }
+function punch(t,v=.6,f=120){ tone(f,t,.3,{to:38,v}); noise(t,.18,{type:'lowpass',f:1100,to:180,v:v*.6}); }
+function snap(t,v=.2){ noise(t,.02,{type:'highpass',f:3800,v}); }
+
+// 8 kiểu âm đặt khối (càng combo càng cao)
 function playPlaceSound(type){
   const c=audioReady(); if(!c) return;
-  const t=c.currentTime+.005, f=PENTA[Math.floor(Math.random()*5)]/2;
+  const t=c.currentTime+.005, U=pitchUp(), f=PENTA[Math.floor(Math.random()*5)]/2*U;
   switch(type){
-    case 'A2': tone(190,t,.13,{to:85,v:.55}); noise(t,.05,{f:1800,q:3,v:.3}); tone(f*2,t,.09,{type:'triangle',v:.1}); break;
-    case 'A3': tone(f*2,t,.45,{v:.35,rev:.25}); tone(f*4,t,.18,{v:.1}); tone(f*8,t,.06,{v:.08}); break;
-    case 'A4': tone(f*6,t,.55,{v:.17,rev:.55}); tone(f*9.02,t,.4,{v:.1,rev:.55}); noise(t,.02,{type:'highpass',f:6000,v:.18}); break;
-    case 'A5': tone(150,t,.22,{to:45,v:.75}); noise(t,.09,{type:'lowpass',f:700,v:.4}); break;
-    case 'A6': tone(f,t,.15,{to:f*3,v:.35,rev:.2}); tone(f*1.5,t+.03,.12,{to:f*4,v:.14}); break;
-    case 'A7': tone(f*2,t,.05,{type:'square',v:.14}); tone(f*3,t+.05,.07,{type:'square',v:.14}); break;
-    case 'A8': noise(t,.14,{type:'highpass',f:4500,to:700,v:.3}); tone(280,t,.2,{to:70,type:'sawtooth',v:.28,lp:900}); break;
-    default:   tone(f*1.5,t,.12,{to:f*3,v:.4}); tone(f*3,t,.06,{v:.1}); noise(t,.015,{type:'highpass',f:5000,v:.12});
+    case 'A2': tone(210*U,t,.15,{to:95,v:.7}); noise(t,.06,{f:1600,q:4,v:.4}); tone(f*2,t,.2,{type:'triangle',v:.16,rev:.2}); snap(t); break;
+    case 'A3': tone(f*2,t,.5,{v:.45,rev:.3}); tone(f*3,t+.06,.4,{v:.26,rev:.3}); tone(f*8,t,.07,{v:.12}); snap(t,.12); break;
+    case 'A4': tone(f*6,t,.75,{v:.22,rev:.65}); tone(f*9.02,t+.01,.55,{v:.14,rev:.65}); tone(f*13.1,t+.02,.4,{v:.08,rev:.65}); snap(t); break;
+    case 'A5': punch(t,.9,160*U); tone(f,t,.12,{type:'triangle',v:.15}); break;
+    case 'A6': tone(f,t,.13,{to:f*3,v:.45}); tone(f*1.5,t+.07,.14,{to:f*4.5,v:.35,rev:.2}); tone(f*2,t+.14,.12,{to:f*6,v:.2,rev:.3}); break;
+    case 'A7': tone(f*2,t,.05,{type:'square',v:.15}); tone(f*3,t+.05,.05,{type:'square',v:.15}); tone(f*4,t+.1,.1,{type:'square',v:.16,rev:.2}); break;
+    case 'A8': noise(t,.16,{type:'highpass',f:5000,to:600,v:.4}); tone(300*U,t,.22,{to:60,type:'sawtooth',v:.4,lp:1000}); punch(t+.03,.5); break;
+    default:   tone(f*1.5,t,.11,{to:f*3.2,v:.5}); snap(t,.18); tone(f*6,t+.05,.25,{v:.12,rev:.5}); tone(f*8,t+.09,.2,{v:.08,rev:.5});
   }
 }
 
-// 8 kiểu âm ăn hàng (n = số hàng/cột)
+// 8 kiểu âm ăn hàng (n = số hàng/cột, càng nhiều càng hoành tráng)
 function playClearSound(type, n = 2){
   const c=audioReady(); if(!c) return;
-  const t=c.currentTime+.01, k=Math.max(1,Math.min(n,5)), P=PENTA;
-  if(k>=3) tone(90,t,.35,{to:40,v:.55});
+  const t=c.currentTime+.01, k=Math.max(1,Math.min(n,5)), P=PENTA, U=pitchUp();
+  const imp=(at,m=1)=>{ punch(at,(.45+k*.08)*m,100); if(k>=3) noise(at,.35,{type:'highpass',f:6000,to:1500,v:.12}); };
   switch(type){
-    case 'B2': for(let i=0;i<6+k*2;i++) tone(P[Math.floor(Math.random()*P.length)]*(i%3?1:.5),t+i*.05,.4,{v:.15,rev:.5}); break;
-    case 'B3': for(let i=0;i<5+k*2;i++) tone(P[i%P.length]/2*(i>=P.length?2:1),t+i*.045,.5,{type:'triangle',v:.22,rev:.45}); break;
-    case 'B4': for(let i=0;i<4+k;i++) tone(P[i%6]*(i>5?2:1),t+i*.055,.08,{type:'square',v:.13});
-               tone(P[5+k%3],t+(4+k)*.055,.25,{type:'square',v:.15}); break;
-    case 'B5': noise(t,.35,{f:300,to:5000,q:1.5,v:.3});
-               [0,2,4].forEach((j,i)=>tone(P[j+1],t+.28+i*.03,.6,{v:.2,rev:.5})); break;
-    case 'B6': [0,2,3,5].forEach(j=>tone(P[j],t,.9,{type:'triangle',v:.2,rev:.5}));
-               tone(P[0]/2,t,.9,{v:.25}); tone(P[7],t+.12,.8,{v:.12,rev:.6}); break;
-    case 'B7': tone(180,t,.4,{to:1700,type:'sawtooth',v:.2,lp:2200,a:.05}); noise(t,.4,{f:500,to:6000,v:.15});
-               for(let i=0;i<4;i++) tone(P[4+i],t+.35+i*.04,.4,{v:.14,rev:.5}); break;
-    case 'B8': tone(988,t,.07,{type:'square',v:.16}); tone(1318.5,t+.07,.45,{type:'square',v:.16,rev:.3});
-               for(let i=1;i<k;i++){ tone(988*(1+i*.12),t+.14+i*.09,.07,{type:'square',v:.1}); tone(1318.5*(1+i*.12),t+.21+i*.09,.3,{type:'square',v:.1}); } break;
-    default:   for(let i=0;i<4+k;i++){ tone(P[i],t+i*.065,.55,{v:.26,rev:.4}); tone(P[i]*2,t+i*.065,.2,{v:.07}); }
+    case 'B2': noise(t,.22,{f:400,to:6000,q:1.2,v:.22});
+               for(let i=0;i<8+k*3;i++) tone(P[(9-(i%10))]*U*(i%3?1:.5),t+.2+i*.04,.45,{v:.16,rev:.6});
+               imp(t+.2); break;
+    case 'B3': for(let i=0;i<10+k*2;i++) tone(P[i%10]/2*U*(i>=10?2:1),t+i*.035,.6,{type:'triangle',v:.24,rev:.5});
+               [0,2,4].forEach(j=>tone(P[j]*U,t+(10+k*2)*.035,1,{v:.15,rev:.6})); imp(t); break;
+    case 'B4': for(let i=0;i<6+k;i++) tone(P[i%8]*U*(i>7?2:1),t+i*.05,.07,{type:'square',v:.14});
+               tone(P[4]*U,t+(6+k)*.05,.4,{to:P[9]*U,type:'square',v:.16,rev:.2}); noise(t,.08,{type:'highpass',f:4000,v:.15}); imp(t,.6); break;
+    case 'B5': noise(t,.3,{f:300,to:6000,q:1.3,v:.3});
+               punch(t+.28,1.0,100); noise(t+.28,.5,{type:'lowpass',f:2000,to:200,v:.55});
+               [0,2,4,7].forEach((j,i)=>tone(P[j]*U,t+.3+i*.03,.9,{v:.2,rev:.6})); break;
+    case 'B6': [[0,2,3,5],[2,4,5,7]].forEach((ch,ci)=>ch.forEach(j=>{
+                 tone(P[j]*U,t+ci*.18,.9,{type:'sawtooth',v:.1,lp:2200,a:.01,rev:.4});
+                 tone(P[j]*U,t+ci*.18,.9,{type:'triangle',v:.14,rev:.5}); }));
+               imp(t); break;
+    case 'B7': tone(160*U,t,.45,{to:1800*U,type:'sawtooth',v:.18,lp:2600,a:.05}); tone(166*U,t,.45,{to:1850*U,type:'sawtooth',v:.14,lp:2600,a:.05});
+               noise(t,.4,{f:500,to:7000,v:.18});
+               for(let i=0;i<5;i++) tone(P[4+i]*U,t+.4+i*.04,.45,{v:.15,rev:.55}); imp(t+.42,.7); break;
+    case 'B8': for(let i=0;i<k+2;i++){ tone(988*U*(1+.06*i),t+i*.09,.07,{type:'square',v:.14});
+                 tone(1318.5*U*(1+.06*i),t+i*.09+.07,.35,{type:'square',v:.14,rev:.3}); }
+               tone(P[9]*U,t+(k+2)*.09,.6,{v:.1,rev:.6}); imp(t,.5); break;
+    default:   for(let i=0;i<5+k*2;i++){ tone(P[i%8]*U*(i>=8?2:1),t+i*.05,.6,{v:.28,rev:.45}); tone(P[i%8]*U*2,t+i*.05,.22,{v:.09}); }
+               tone(P[7]*U*2,t+(5+k*2)*.05,.9,{v:.2,rev:.6}); imp(t);
   }
 }
 
@@ -905,9 +981,11 @@ function sfxClear(n){ if(muted || volume <= 0) return; playClearSound(curClearSf
 function sfxCombo(cb){
   if(muted || volume <= 0) return;
   const c=audioReady(); if(!c) return;
-  const t=c.currentTime, cnt=Math.min(8,3+cb);
-  for(let i=0;i<cnt;i++) tone(PENTA[i+1],t+.18+i*.05,.45,{type:'triangle',v:.2,rev:.45});
-  tone(PENTA[cnt]*2,t+.18+cnt*.05,.7,{v:.1,rev:.6});
+  const t=c.currentTime+.01, cnt=Math.min(9,4+cb), U=Math.pow(2,Math.min(cb-2,6)/12);
+  noise(t,.2,{f:500,to:7000,q:1.2,v:.2});
+  for(let i=0;i<cnt;i++){ tone(PENTA[i%10]*U,t+.1+i*.05,.5,{type:'triangle',v:.22,rev:.5}); tone(PENTA[i%10]*2*U,t+.1+i*.05,.2,{v:.08}); }
+  [0,2,4,7].forEach(j=>tone(PENTA[j]*U,t+.1+cnt*.05,1.1,{type:'sawtooth',v:.08,lp:2400,rev:.5}));
+  punch(t+.1+cnt*.05,.8,110);
 }
 function sfxLvlUp(){
   if(muted || volume <= 0) return;
@@ -946,7 +1024,7 @@ function closeSettingsModal(){
   localStorage.setItem('pkblast_place_sfx', curPlaceSfx);
   localStorage.setItem('pkblast_clear_sfx', curClearSfx);
   localStorage.setItem('pkblast_theme', curTheme);
-  localStorage.setItem('pkblast_timer_rush', timerRushOn);
+  localStorage.setItem('flashgo_timer', timerRushOn);
   localStorage.setItem('pkblast_tick_sfx', tickSoundOn);
   localStorage.setItem('pkblast_fx_shake', shakeFxOn);
   localStorage.setItem('pkblast_fx_laser', laserFxOn);
@@ -968,18 +1046,20 @@ function toggleTimerRush(on){
   document.getElementById('timerModeText').textContent = on ? 'ĐANG BẬT' : 'ĐÃ TẮT';
 }
 
+function setRushLimit(v){
+  RUSH_TIME_LIMIT = Math.min(15,Math.max(1,parseInt(v)||5));
+  localStorage.setItem('flashgo_rush_sec', RUSH_TIME_LIMIT);
+  rushTimeLeft = RUSH_TIME_LIMIT; lastTickSec = 99;
+  byId('vRush').textContent = ' '+RUSH_TIME_LIMIT+'s'; updateTimerUI();
+}
 function toggleTickSound(on){ tickSoundOn = on; }
 function toggleShakeFx(on){ shakeFxOn = on; }
 function toggleLaserFx(on){ laserFxOn = on; }
 function toggleParticlesFx(on){ particleFxOn = on; }
 
 function setGameTheme(name){
-  curTheme = name;
-  document.body.className = '';
-  if(name !== 'cyber') document.body.classList.add('theme-' + name);
-  document.querySelectorAll('#themeGrid .theme-card').forEach(c=>c.classList.remove('active'));
-  const card = document.getElementById('th-' + name);
-  if(card) card.classList.add('active');
+  curTheme = THEMES[name] ? name : 'midnight';
+  applyTheme(); buildThemeGrid();
 }
 
 function selectPlaceSfx(val){
@@ -1002,6 +1082,7 @@ function testComboAudio(){
 function syncSettingsUI(){
   // Timer switch
   document.getElementById('chkTimerRush').checked = timerRushOn;
+  byId('sRush').value = RUSH_TIME_LIMIT; byId('vRush').textContent = ' '+RUSH_TIME_LIMIT+'s';
   document.getElementById('chkTickSound').checked = tickSoundOn;
   document.getElementById('chkShakeFx').checked = shakeFxOn;
   document.getElementById('chkLaserFx').checked = laserFxOn;
@@ -1021,11 +1102,7 @@ function syncSettingsUI(){
     if(parent) parent.classList.toggle('active', r.value === curClearSfx);
   });
 
-  buildSkinGrid();
-  // Theme selection
-  document.querySelectorAll('#themeGrid .theme-card').forEach(c=>c.classList.remove('active'));
-  const activeCard = document.getElementById('th-' + curTheme);
-  if(activeCard) activeCard.classList.add('active');
+  buildThemeGrid(); buildSkinGrid(); buildPaletteGrid(); buildFxGrid(); syncOptUI();
 }
 
 // ── DRAWING HELPERS ──────────────────────────
@@ -1050,230 +1127,193 @@ function drk(hex,p){
 }
 
 // ── BOLD, ICONIC POKÉMON EMBLEMS ─────────────
-function drawCleanPokemonEmblem(ctx, cx, cy, rad, tag){
-  ctx.save();
-  ctx.translate(cx, cy);
-
-  if(tag === 'fire'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 6;
-    ctx.beginPath();
-    ctx.moveTo(0, rad * 0.95);
-    ctx.bezierCurveTo(-rad * 0.9, rad * 0.6, -rad * 0.8, -rad * 0.2, 0, -rad);
-    ctx.bezierCurveTo(rad * 0.2, -rad * 0.35, rad * 0.85, 0, rad * 0.85, rad * 0.45);
-    ctx.bezierCurveTo(rad * 0.85, rad * 0.95, rad * 0.4, rad * 0.95, 0, rad * 0.95);
-    ctx.fill();
-    ctx.fillStyle = '#FFA000';
-    ctx.beginPath(); ctx.arc(rad * 0.05, rad * 0.35, rad * 0.36, 0, Math.PI * 2); ctx.fill();
-  }
-  else if(tag === 'water'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 6;
-    ctx.beginPath();
-    ctx.moveTo(0, -rad);
-    ctx.bezierCurveTo(-rad * 0.8, -rad * 0.1, -rad * 0.8, rad * 0.85, 0, rad * 0.95);
-    ctx.bezierCurveTo(rad * 0.8, rad * 0.85, rad * 0.8, -rad * 0.1, 0, -rad);
-    ctx.fill();
-    ctx.fillStyle = '#00E5FF';
-    ctx.beginPath(); ctx.arc(rad * 0.2, rad * 0.3, rad * 0.25, 0, Math.PI * 2); ctx.fill();
-  }
-  else if(tag === 'electric'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.9)'; ctx.shadowBlur = 8;
-    ctx.beginPath();
-    ctx.moveTo(-rad * 0.15, -rad);
-    ctx.lineTo(rad * 0.85, -rad * 0.1);
-    ctx.lineTo(rad * 0.05, rad * 0.05);
-    ctx.lineTo(rad * 0.55, rad);
-    ctx.lineTo(-rad * 0.85, rad * 0.15);
-    ctx.lineTo(-rad * 0.05, -rad * 0.05);
-    ctx.closePath();
-    ctx.fill();
-  }
-  else if(tag === 'grass'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 6;
-    ctx.beginPath();
-    ctx.moveTo(-rad * 0.7, rad * 0.7);
-    ctx.quadraticCurveTo(-rad * 0.85, -rad * 0.6, 0, -rad * 0.95);
-    ctx.quadraticCurveTo(rad * 0.85, -rad * 0.6, rad * 0.7, rad * 0.7);
-    ctx.quadraticCurveTo(0, rad * 0.45, -rad * 0.7, rad * 0.7);
-    ctx.fill();
-    ctx.strokeStyle = '#007020'; ctx.lineWidth = 1.4;
-    ctx.beginPath(); ctx.moveTo(0, -rad * 0.8); ctx.lineTo(0, rad * 0.6); ctx.stroke();
-  }
-  else if(tag === 'ice'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.9)'; ctx.shadowBlur = 7;
-    ctx.beginPath();
-    ctx.moveTo(0, -rad * 1.05);
-    ctx.quadraticCurveTo(rad * 0.15, -rad * 0.15, rad * 1.05, 0);
-    ctx.quadraticCurveTo(rad * 0.15, rad * 0.15, 0, rad * 1.05);
-    ctx.quadraticCurveTo(-rad * 0.15, rad * 0.15, -rad * 1.05, 0);
-    ctx.quadraticCurveTo(-rad * 0.15, -rad * 0.15, 0, -rad * 1.05);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#00E5FF';
-    ctx.beginPath(); ctx.arc(0, 0, rad * 0.28, 0, Math.PI * 2); ctx.fill();
-  }
-  else if(tag === 'psychic'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.9)'; ctx.shadowBlur = 8;
-    ctx.beginPath(); ctx.arc(0, 0, rad * 0.65, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1.8;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, rad * 1.05, rad * 0.38, -Math.PI / 6, 0, Math.PI * 2);
-    ctx.stroke();
-  }
-  else if(tag === 'dragon'){
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 7;
-    ctx.beginPath();
-    ctx.moveTo(0, -rad * 1.0);
-    ctx.lineTo(rad * 0.85, -rad * 0.4);
-    ctx.lineTo(rad * 0.3, rad * 0.2);
-    ctx.lineTo(0, rad * 0.95);
-    ctx.lineTo(-rad * 0.3, rad * 0.2);
-    ctx.lineTo(-rad * 0.85, -rad * 0.4);
-    ctx.closePath();
-    ctx.fill();
-  }
-  else {
-    ctx.fillStyle = '#FFFFFF';
-    ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 6;
-    ctx.beginPath();
-    ctx.arc(0, -rad * 0.2, rad * 0.6, Math.PI, 0);
-    ctx.lineTo(rad * 0.6, rad * 0.6); ctx.lineTo(rad * 0.2, rad * 0.3);
-    ctx.lineTo(0, rad * 0.6); ctx.lineTo(-rad * 0.2, rad * 0.3); ctx.lineTo(-rad * 0.6, rad * 0.6);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#1E1B4B';
-    ctx.beginPath(); ctx.arc(-rad*0.25, -rad*0.2, rad*0.12, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(rad*0.25, -rad*0.2, rad*0.12, 0, Math.PI*2); ctx.fill();
-  }
-
-  ctx.restore();
-}
-
-// ── CANDY / GEMSTONE BLOCK RENDERER ──────────
-function drawCellGem(ctx,x,y,sz,t,alpha=1,scale=1){
-  if(alpha<=0)return;
-  ctx.save();
-  ctx.globalAlpha = alpha;
-
-  if(scale !== 1){
-    ctx.translate(x+sz/2, y+sz/2);
-    ctx.scale(scale, scale);
-    ctx.translate(-(x+sz/2), -(y+sz/2));
-  }
-
-  const pad = 2.0;
-  const r = Math.max(5, sz * 0.24);
-  const ix = x + pad, iy = y + pad, iw = sz - pad * 2, ih = sz - pad * 2;
-
-  // 1. Ambient drop shadow
-  ctx.fillStyle = 'rgba(0,0,0,0.45)';
-  rr(ctx, ix, iy + 2.5, iw, ih, r); ctx.fill();
-
-  // 2. Base Gemstone Body
-  const gemGrad = ctx.createLinearGradient(ix, iy, ix, iy + ih);
-  gemGrad.addColorStop(0, lht(t.c, 45));
-  gemGrad.addColorStop(0.4, t.c);
-  gemGrad.addColorStop(1, drk(t.c, 30));
-  rr(ctx, ix, iy, iw, ih, r); ctx.fillStyle = gemGrad; ctx.fill();
-
-  // 3. Top-Left 3D Cushion Bevel
-  ctx.strokeStyle = 'rgba(255,255,255,0.65)';
-  ctx.lineWidth = 1.5;
-  rr(ctx, ix + 1, iy + 1, iw - 2, ih - 2, Math.max(2, r - 1)); ctx.stroke();
-
-  // 4. Bottom-Right Bevel Shadow
-  ctx.strokeStyle = drk(t.d, 20);
-  ctx.lineWidth = 1.6;
-  rr(ctx, ix, iy, iw, ih, r); ctx.stroke();
-
-  // 5. Glossy Bubble Reflection
-  const glossGrad = ctx.createLinearGradient(ix, iy, ix, iy + ih * 0.45);
-  glossGrad.addColorStop(0, 'rgba(255,255,255,0.7)');
-  glossGrad.addColorStop(0.5, 'rgba(255,255,255,0.15)');
-  glossGrad.addColorStop(1, 'rgba(255,255,255,0)');
-  rr(ctx, ix + 2.5, iy + 2, iw - 5, ih * 0.42, r * 0.7); ctx.fillStyle = glossGrad; ctx.fill();
-
-  // 6. Central Emblem
-  if(sz >= 22){
-    const emblemRad = Math.floor(sz * 0.28);
-    drawCleanPokemonEmblem(ctx, x + sz/2, y + sz/2 + 0.5, emblemRad, t.tag);
-  }
-
-  ctx.restore();
-}
-
-// ── BLOCK SKINS ──────────────────────────────
-let curSkin = localStorage.getItem('flashgo_skin') || 'gem';
-const SKIN_NAMES = { gem:'💎 Ngọc', candy:'🍬 Kẹo', pixel:'👾 Pixel', neon:'🌈 Neon' };
-const SKIN_DRAW = {
-  candy(ctx,x,y,w,t){
-    const r = w*0.36;
-    ctx.fillStyle='rgba(0,0,0,.35)'; rr(ctx,x,y+3,w,w,r); ctx.fill();
-    const g = ctx.createRadialGradient(x+w*.35,y+w*.3,w*.05,x+w/2,y+w/2,w*.78);
-    g.addColorStop(0,lht(t.g,30)); g.addColorStop(.5,t.c); g.addColorStop(1,drk(t.c,30));
-    rr(ctx,x,y,w,w,r); ctx.fillStyle=g; ctx.fill();
-    ctx.strokeStyle=drk(t.d,10); ctx.lineWidth=1.5; ctx.stroke();
-    ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.ellipse(x+w*.3,y+w*.25,w*.17,w*.09,-.55,0,7); ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,.35)'; ctx.beginPath(); ctx.arc(x+w*.72,y+w*.74,w*.06,0,7); ctx.fill();
-  },
-  pixel(ctx,x,y,w,t){
-    const b = Math.max(3,Math.round(w*.14));
-    ctx.fillStyle=drk(t.d,30); ctx.fillRect(x,y,w,w);
-    ctx.fillStyle=t.c; ctx.fillRect(x+b,y+b,w-b*2,w-b*2);
-    ctx.fillStyle=lht(t.g,40); ctx.fillRect(x+b,y+b,w-b*2,b); ctx.fillRect(x+b,y+b,b,w-b*2);
-    ctx.fillStyle=drk(t.c,28); ctx.fillRect(x+b,y+w-b*2,w-b*2,b); ctx.fillRect(x+w-b*2,y+b,b,w-b*2);
-    ctx.fillStyle='rgba(255,255,255,.9)'; ctx.fillRect(x+b*2,y+b*2,b,b);
-  },
-  neon(ctx,x,y,w,t){
-    const r = w*.2, a = ctx.globalAlpha;
-    rr(ctx,x,y,w,w,r); ctx.fillStyle='#0a0e26'; ctx.fill();
-    ctx.globalAlpha=a*.3; ctx.fillStyle=t.c; ctx.fill(); ctx.globalAlpha=a;
-    ctx.shadowColor=t.g; ctx.shadowBlur=w*.35; ctx.strokeStyle=t.g; ctx.lineWidth=2.6; ctx.stroke();
-    ctx.shadowBlur=0; rr(ctx,x+w*.3,y+w*.3,w*.4,w*.4,r*.4); ctx.fillStyle=t.g; ctx.fill();
-  }
+const GLYPH = {
+  fire:'M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3.500 2-4.500.2 1.500 1 2.500 2 2.500C11 8 10 5 12 2z',
+  water:'M12 2.500C8 8 5.500 11 5.500 14.500a6.500 6.500 0 0 0 13 0C18.500 11 16 8 12 2.500z',
+  electric:'M13 2 5 13.500h6L10 22l9-12h-6.500z',
+  grass:'M20 4C10 4 5 8.500 5 14c0 1.500.4 2.700 1 3.800C7 13 10 10.500 14 9c-3 2.500-5 5.500-6 9.500 1 .3 2 .5 3 .5 6 0 9-5 9-15z',
+  psychic:'M12 2l2.600 7.400L22 12l-7.400 2.600L12 22l-2.600-7.400L2 12l7.400-2.600z',
+  dragon:'M12 2l8.500 5v10L12 22l-8.500-5V7z',
+  ghost:'M12 2a7 7 0 0 0-7 7v13l3.500-2.500L12 22l3.500-2.500L19 22V9a7 7 0 0 0-7-7z'
 };
-function drawCell(ctx,x,y,sz,t,alpha=1,scale=1){
-  if(curSkin==='gem' || !SKIN_DRAW[curSkin]) return drawCellGem(ctx,x,y,sz,t,alpha,scale);
-  if(alpha<=0) return;
-  ctx.save(); ctx.globalAlpha=alpha;
-  if(scale!==1){ ctx.translate(x+sz/2,y+sz/2); ctx.scale(scale,scale); ctx.translate(-(x+sz/2),-(y+sz/2)); }
-  SKIN_DRAW[curSkin](ctx,x+2,y+2,sz-4,t);
+const GLYPH_PATH = {}; Object.keys(GLYPH).forEach(k=>GLYPH_PATH[k]=new Path2D(GLYPH[k]));
+function drawCleanPokemonEmblem(ctx,cx,cy,rad,tag){
+  ctx.save(); ctx.translate(cx-rad,cy-rad); ctx.scale(rad/12,rad/12);
+  ctx.shadowColor='rgba(0,0,0,.4)'; ctx.shadowBlur=3;
+  ctx.fillStyle='rgba(255,255,255,.93)'; ctx.strokeStyle='rgba(255,255,255,.93)';
+  if(tag==='ice'){ ctx.lineWidth=2.400; ctx.lineCap='round'; ctx.beginPath();
+    ctx.moveTo(12,2);ctx.lineTo(12,22);ctx.moveTo(3.300,7);ctx.lineTo(20.700,17);ctx.moveTo(3.300,17);ctx.lineTo(20.700,7); ctx.stroke(); }
+  else if(GLYPH_PATH[tag]){ ctx.fill(GLYPH_PATH[tag]);
+    if(tag==='ghost'){ ctx.shadowBlur=0; ctx.fillStyle='rgba(0,0,0,.5)'; ctx.beginPath(); ctx.arc(9,10,1.800,0,7); ctx.arc(15,10,1.800,0,7); ctx.fill(); } }
   ctx.restore();
 }
-function buildSkinGrid(){
-  const g = document.getElementById('skinGrid'); if(!g) return;
-  g.innerHTML = '';
-  Object.keys(SKIN_NAMES).forEach(k=>{
-    const d = document.createElement('div');
-    d.className = 'theme-card' + (k===curSkin?' active':'');
-    d.onclick = ()=>setSkin(k);
-    const c = document.createElement('canvas');
-    c.style.width='114px'; c.style.height='38px'; c.width=114*DPR; c.height=38*DPR;
-    const x = c.getContext('2d'); x.setTransform(DPR,0,0,DPR,0,0);
-    const old = curSkin; curSkin = k;
-    [0,1,3].forEach((ti,i)=>drawCell(x,i*38,0,38,TYPES[ti]));
-    curSkin = old;
-    d.appendChild(c);
-    d.insertAdjacentHTML('beforeend','<div class="theme-title">'+SKIN_NAMES[k]+'</div>');
+
+// ── THEMES ───────────────────────────────────
+const THEMES = {
+  midnight:{n:'Midnight', bg:'#0e1126', bg2:'#1a2050', surface:'#171c40', surface2:'#222a5e', accent:'#FFC83D', accent2:'#4DE1C1'},
+  amoled:  {n:'Amoled',   bg:'#000000', bg2:'#0d0d14', surface:'#111116', surface2:'#1d1d26', accent:'#FF4D6D', accent2:'#5CE1E6'},
+  ocean:   {n:'Đại dương',bg:'#061a2b', bg2:'#0b3a5c', surface:'#0c2d49', surface2:'#14466d', accent:'#4CC9F0', accent2:'#80FFDB'},
+  forest:  {n:'Rừng xanh',bg:'#07180f', bg2:'#0f3a24', surface:'#0f2d1d', surface2:'#184a30', accent:'#9BE564', accent2:'#F7D154'},
+  sunset:  {n:'Hoàng hôn',bg:'#1d0b1f', bg2:'#4a1942', surface:'#2a1230', surface2:'#40204a', accent:'#FF9F43', accent2:'#FF6B9D'},
+  sakura:  {n:'Hoa anh đào',bg:'#231019', bg2:'#4a1f35', surface:'#331626', surface2:'#4d2339', accent:'#FF8FB8', accent2:'#FFD6E8'},
+  violet:  {n:'Tím mộng', bg:'#0f0a24', bg2:'#2a1b5e', surface:'#1b1342', surface2:'#2b2063', accent:'#B388FF', accent2:'#64E9FF'},
+};
+const PALETTES = {
+  vivid: {n:'Rực rỡ', cols:['#FF3D00','#0088FF','#FFB300','#00B050','#00D5EA','#E02885','#6E2CF3','#4F46E5']},
+  pastel:{n:'Pastel', cols:['#FF8A80','#82B1FF','#FFE57F','#B9F6CA','#A7FFEB','#F8BBD0','#CE93D8','#B39DDB']},
+  retro: {n:'Retro',  cols:['#E4572E','#2E86AB','#F6C85F','#6FB07F','#76C7C0','#C0568B','#7B5EA7','#A1887F']},
+  sunset:{n:'Nắng chiều',cols:['#FF5E5B','#FF9F1C','#FFD166','#EF476F','#F78C6B','#C9184A','#9D4EDD','#5A189A']},
+  ocean: {n:'Biển xanh',cols:['#0077B6','#00B4D8','#90E0EF','#2EC4B6','#CAF0F8','#48CAE4','#3A86FF','#023E8A']},
+};
+const OPT_DEF = { round:null, gloss:60, gap:2, emblem:false, palette:'vivid', accent:null };
+const uiOpt = Object.assign({}, OPT_DEF, JSON.parse(localStorage.getItem('flashgo_opts')||'{}'));
+function saveOpts(){ localStorage.setItem('flashgo_opts', JSON.stringify(uiOpt)); }
+
+function applyTheme(){
+  const t = THEMES[curTheme], st = document.documentElement.style, acc = uiOpt.accent || t.accent;
+  st.setProperty('--bg',t.bg); st.setProperty('--bg2',t.bg2); st.setProperty('--surface',t.surface);
+  st.setProperty('--surface2',t.surface2); st.setProperty('--accent',acc); st.setProperty('--accent2',t.accent2);
+  const m = document.querySelector('meta[name=theme-color]'); if(m) m.content = t.bg;
+  GC.accent = acc;
+  document.body.className = '';
+  if(GW && pieces){ drawGrid(); drawPieces(); }
+}
+function buildThemeGrid(){
+  const g = byId('themeGrid'); if(!g) return; g.innerHTML='';
+  Object.entries(THEMES).forEach(([k,t])=>{
+    const d = document.createElement('div'); d.className='theme-card'+(k===curTheme?' active':''); d.onclick=()=>setGameTheme(k);
+    d.innerHTML = `<div class="theme-preview" style="height:30px;display:flex;align-items:center;justify-content:center;gap:5px;background:linear-gradient(135deg,${t.bg2},${t.bg})"><i style="width:12px;height:12px;border-radius:50%;background:${t.accent}"></i><i style="width:12px;height:12px;border-radius:50%;background:${t.accent2}"></i></div><div class="theme-title">${t.n}</div>`;
     g.appendChild(d);
   });
 }
-function setSkin(k){
-  curSkin = k; localStorage.setItem('flashgo_skin',k);
-  buildSkinGrid(); drawGrid(); drawPieces();
+function onAccent(v){ uiOpt.accent=v; saveOpts(); applyTheme(); syncOptUI(); }
+
+// ── BLOCK SKINS ──────────────────────────────
+const SKIN_NAMES = { pixel:'Pixel', jelly:'Thạch', crystal:'Pha lê', wood:'Gỗ', glass:'Kính', flat:'Phẳng' };
+const SKIN_DEF   = { pixel:0, jelly:40, crystal:8, wood:14, glass:26, flat:24 };
+let curSkin = localStorage.getItem('flashgo_skin');
+if(!SKIN_NAMES[curSkin]) curSkin = 'pixel';
+function hexA(h,a){ const n=parseInt(h.slice(1),16); return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`; }
+const RR = (c,x,y,w,r)=>rr(c,x,y,w,w,Math.max(.01,r));
+const SKIN_DRAW = {
+  pixel(c,x,y,w,t,r,g){
+    c.save(); RR(c,x,y,w,r); c.clip();
+    const b=Math.max(2,Math.round(w*.13));
+    c.fillStyle=drk(t.c,40); c.fillRect(x,y,w,w);
+    c.fillStyle=t.c; c.fillRect(x+b,y+b,w-2*b,w-2*b);
+    c.fillStyle=lht(t.c,25+g*35); c.fillRect(x+b,y+b,w-2*b,b); c.fillRect(x+b,y+b,b,w-2*b);
+    c.fillStyle=drk(t.c,22); c.fillRect(x+b,y+w-2*b,w-2*b,b); c.fillRect(x+w-2*b,y+b,b,w-2*b);
+    c.fillStyle='rgba(255,255,255,'+(.3+g*.6)+')'; c.fillRect(x+b*2,y+b*2,b*1.3,b*1.3);
+    c.restore();
+  },
+  jelly(c,x,y,w,t,r,g){
+    c.fillStyle='rgba(0,0,0,.3)'; RR(c,x,y+w*.07,w,r); c.fill();
+    const gr=c.createRadialGradient(x+w*.35,y+w*.3,w*.05,x+w/2,y+w/2,w*.8);
+    gr.addColorStop(0,lht(t.g,25)); gr.addColorStop(.55,t.c); gr.addColorStop(1,drk(t.c,28));
+    RR(c,x,y,w,r); c.fillStyle=gr; c.fill();
+    c.strokeStyle=lht(t.c,22); c.lineWidth=1.5; c.stroke();
+    const gl=c.createLinearGradient(0,y,0,y+w*.45);
+    gl.addColorStop(0,'rgba(255,255,255,'+g*.85+')'); gl.addColorStop(1,'rgba(255,255,255,0)');
+    rr(c,x+w*.12,y+w*.08,w*.76,w*.36,Math.max(.5,r*.7)); c.fillStyle=gl; c.fill();
+  },
+  crystal(c,x,y,w,t,r,g){
+    c.save(); RR(c,x,y,w,r); c.clip();
+    const m=w*.22, X=x+w, Y=y+w, poly=(pts,f)=>{ c.beginPath(); pts.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1])); c.closePath(); c.fillStyle=f; c.fill(); };
+    poly([[x,y],[X,y],[X-m,y+m],[x+m,y+m]], lht(t.c,25+g*30));
+    poly([[x,y],[x+m,y+m],[x+m,Y-m],[x,Y]], lht(t.c,10+g*10));
+    poly([[X,y],[X,Y],[X-m,Y-m],[X-m,y+m]], drk(t.c,20));
+    poly([[x,Y],[x+m,Y-m],[X-m,Y-m],[X,Y]], drk(t.c,42));
+    const gr=c.createLinearGradient(x,y,X,Y); gr.addColorStop(0,lht(t.c,18)); gr.addColorStop(1,t.c);
+    c.fillStyle=gr; c.fillRect(x+m,y+m,w-2*m,w-2*m);
+    c.fillStyle='rgba(255,255,255,'+(.25+g*.6)+')'; poly([[x+m*1.3,y+m*1.3],[x+m*2.1,y+m*1.3],[x+m*1.3,y+m*2.1]],'rgba(255,255,255,'+(.25+g*.6)+')');
+    c.restore();
+  },
+  wood(c,x,y,w,t,r,g){
+    c.save(); RR(c,x,y,w,r); c.clip();
+    const gr=c.createLinearGradient(0,y,0,y+w); gr.addColorStop(0,lht(t.c,14)); gr.addColorStop(1,drk(t.c,22));
+    c.fillStyle=gr; c.fillRect(x,y,w,w);
+    c.strokeStyle='rgba(0,0,0,.14)'; c.lineWidth=1.4;
+    [.3,.55,.78].forEach((f,i)=>{ c.beginPath(); c.moveTo(x,y+w*f); c.bezierCurveTo(x+w*.3,y+w*(f-.05+i*.02),x+w*.65,y+w*(f+.06),x+w,y+w*f); c.stroke(); });
+    c.fillStyle='rgba(255,255,255,'+g*.35+')'; c.fillRect(x,y,w,Math.max(1.5,w*.05));
+    c.fillStyle=drk(t.c,48); [[.17,.17],[.83,.17],[.17,.83],[.83,.83]].forEach(p=>{ c.beginPath(); c.arc(x+w*p[0],y+w*p[1],Math.max(1,w*.04),0,7); c.fill(); });
+    c.restore();
+    RR(c,x,y,w,r); c.strokeStyle=drk(t.c,40); c.lineWidth=2; c.stroke();
+  },
+  glass(c,x,y,w,t,r,g){
+    const gr=c.createLinearGradient(x,y,x+w,y+w); gr.addColorStop(0,hexA(t.g,.6)); gr.addColorStop(1,hexA(t.c,.28));
+    RR(c,x,y,w,r); c.fillStyle=gr; c.fill();
+    c.save(); RR(c,x,y,w,r); c.clip();
+    c.fillStyle='rgba(255,255,255,'+g*.3+')'; c.beginPath(); c.moveTo(x,y+w*.55); c.lineTo(x+w*.55,y); c.lineTo(x+w*.8,y); c.lineTo(x,y+w*.8); c.closePath(); c.fill();
+    c.restore();
+    RR(c,x,y,w,r); c.strokeStyle=hexA(t.g,.95); c.lineWidth=2; c.stroke();
+  },
+  flat(c,x,y,w,t,r,g){
+    c.save(); RR(c,x,y,w,r); c.clip();
+    c.fillStyle=t.c; c.fillRect(x,y,w,w);
+    c.fillStyle=drk(t.c,18); c.fillRect(x,y+w*.78,w,w*.22);
+    c.restore();
+    c.fillStyle='rgba(255,255,255,'+g*.5+')'; rr(c,x+w*.14,y+w*.12,w*.72,w*.1,w*.05); c.fill();
+  }
+};
+function drawCell(ctx,x,y,sz,t,alpha=1,scale=1){
+  if(alpha<=0) return;
+  ctx.save(); ctx.globalAlpha=alpha;
+  if(scale!==1){ ctx.translate(x+sz/2,y+sz/2); ctx.scale(scale,scale); ctx.translate(-(x+sz/2),-(y+sz/2)); }
+  const gap=uiOpt.gap, w=sz-gap*2, rd=(uiOpt.round==null?SKIN_DEF[curSkin]:uiOpt.round)/100*w/2;
+  SKIN_DRAW[curSkin](ctx,x+gap,y+gap,w,t,rd,uiOpt.gloss/100);
+  if(uiOpt.emblem && sz>=22) drawCleanPokemonEmblem(ctx,x+sz/2,y+sz/2+.5,Math.floor(sz*.26),t.tag);
+  ctx.restore();
+}
+function applyPalette(){
+  const cols=(PALETTES[uiOpt.palette]||PALETTES.vivid).cols;
+  TYPES.forEach((t,i)=>{ t.c=cols[i]; t.g=lht(cols[i],40); t.d=drk(cols[i],45); });
+}
+applyPalette();
+function buildSkinGrid(){
+  const g = byId('skinGrid'); if(!g) return; g.innerHTML='';
+  Object.keys(SKIN_NAMES).forEach(k=>{
+    const d=document.createElement('div'); d.className='theme-card'+(k===curSkin?' active':''); d.onclick=()=>setSkin(k);
+    const c=document.createElement('canvas'); c.style.width='114px'; c.style.height='38px'; c.width=114*DPR; c.height=38*DPR;
+    const x=c.getContext('2d'); x.setTransform(DPR,0,0,DPR,0,0);
+    const old=curSkin; curSkin=k; [0,1,3].forEach((ti,i)=>drawCell(x,i*38,0,38,TYPES[ti])); curSkin=old;
+    d.appendChild(c); d.insertAdjacentHTML('beforeend','<div class="theme-title">'+SKIN_NAMES[k]+'</div>'); g.appendChild(d);
+  });
+}
+function buildPaletteGrid(){
+  const g = byId('paletteGrid'); if(!g) return; g.innerHTML='';
+  Object.entries(PALETTES).forEach(([k,p])=>{
+    const d=document.createElement('div'); d.className='theme-card'+(k===uiOpt.palette?' active':''); d.onclick=()=>setPalette(k);
+    d.innerHTML='<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:3px;margin-bottom:6px">'+p.cols.map(c=>`<i style="width:15px;height:15px;border-radius:4px;background:${c}"></i>`).join('')+'</div><div class="theme-title">'+p.n+'</div>';
+    g.appendChild(d);
+  });
+}
+function refreshBlocks(){ buildSkinGrid(); if(GW && pieces){ drawGrid(); drawPieces(); } }
+function setSkin(k){ curSkin=k; localStorage.setItem('flashgo_skin',k); syncOptUI(); refreshBlocks(); }
+function setPalette(k){ uiOpt.palette=k; applyPalette(); saveOpts(); buildPaletteGrid(); refreshBlocks(); }
+function onOpt(k,v){ uiOpt[k] = (k==='emblem') ? !!v : (v===null ? null : +v); saveOpts(); syncOptUI(); refreshBlocks(); }
+function resetOpts(){
+  Object.assign(uiOpt, OPT_DEF); curSkin='pixel'; localStorage.setItem('flashgo_skin','pixel');
+  saveOpts(); applyPalette(); applyTheme(); buildPaletteGrid(); syncOptUI(); refreshBlocks();
+}
+function syncOptUI(){
+  const r = uiOpt.round==null ? SKIN_DEF[curSkin] : uiOpt.round;
+  byId('sRound').value=r; byId('vRound').textContent = uiOpt.round==null ? ' (tự động)' : ' '+r+'%';
+  byId('sGloss').value=uiOpt.gloss; byId('vGloss').textContent=' '+uiOpt.gloss+'%';
+  byId('sGap').value=uiOpt.gap; byId('vGap').textContent=' '+uiOpt.gap+'px';
+  byId('chkEmblem').checked=uiOpt.emblem;
+  byId('accentPick').value = uiOpt.accent || THEMES[curTheme].accent;
+}
+function openCustomize(tab){
+  openSettingsModal();
+  document.querySelectorAll('.stab-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('onclick').includes(tab)));
+  document.querySelectorAll('.set-panel').forEach(p=>p.classList.toggle('active', p.id===tab));
 }
 
 // ── GRID RENDER ──────────────────────────────
 function drawGrid(){
   gx.clearRect(0,0,GW,GH);
 
-  gx.strokeStyle = 'rgba(255,224,51,0.08)'; gx.lineWidth = 1;
+  gx.strokeStyle = GC.line; gx.lineWidth = 1;
   for(let i=0; i<=GRID; i++){
     gx.beginPath(); gx.moveTo(i*CS, 0); gx.lineTo(i*CS, GH); gx.stroke();
     gx.beginPath(); gx.moveTo(0, i*CS); gx.lineTo(GW, i*CS); gx.stroke();
@@ -1387,6 +1427,10 @@ function drawGrid(){
         gx.moveTo(0, -p.r*1.4); gx.lineTo(p.r, 0);
         gx.lineTo(0, p.r*1.4); gx.lineTo(-p.r, 0);
         gx.closePath(); gx.fill();
+      } else if(p.type === 'shard'){
+        gx.fillStyle = p.c; gx.beginPath(); gx.moveTo(-p.r,-p.r*.6); gx.lineTo(p.r*1.2,0); gx.lineTo(-p.r*.3,p.r); gx.closePath(); gx.fill();
+      } else if(p.type === 'conf'){
+        gx.fillStyle = p.c; gx.scale(1, Math.abs(Math.cos(p.rot*2))+.15); gx.fillRect(-p.r,-p.r*.6,p.r*2,p.r*1.2);
       } else {
         gx.fillStyle = p.c;
         gx.beginPath(); gx.arc(0, 0, p.r, 0, Math.PI*2); gx.fill();
@@ -1394,8 +1438,8 @@ function drawGrid(){
       gx.restore();
 
       p.x += p.vx; p.y += p.vy;
-      p.vy += 0.22; p.vx *= 0.97;
-      p.a -= 0.024;
+      p.vy += (p.g ?? 0.22); p.vx *= 0.97;
+      p.a -= (p.fade ?? 0.024);
       if(p.rot !== undefined) p.rot += p.vrot;
       if(p.a <= 0) particles.splice(i, 1);
     }
@@ -1434,12 +1478,12 @@ function drawPieces(){
     const isDrag=dragging&&dragging.pi===i;
 
     const slotBg=px.createLinearGradient(i*W,0,i*W+W,PH);
-    slotBg.addColorStop(0,'rgba(25,35,78,.6)');
-    slotBg.addColorStop(1,'rgba(14,20,50,.3)');
+    slotBg.addColorStop(0,'rgba(255,255,255,.06)');
+    slotBg.addColorStop(1,'rgba(255,255,255,.02)');
     px.fillStyle=slotBg;
     rr(px,i*W+3,3,W-6,PH-6,8);px.fill();
 
-    px.strokeStyle=isDrag?'rgba(255,224,51,.9)':'rgba(255,224,51,.25)';
+    px.strokeStyle=isDrag?GC.accent:'rgba(255,255,255,.1)';
     px.lineWidth=isDrag?2:1;
     rr(px,i*W+3,3,W-6,PH-6,8);px.stroke();
 
@@ -1595,70 +1639,88 @@ function checkLines(){
 }
 
 // ── CLEAR VISUAL EFFECTS ─────────────────────
+let clearFx = localStorage.getItem('flashgo_clearfx') || 'classic';
+const FX_STYLES = { classic:'Cổ điển', shatter:'Vỡ mảnh', confetti:'Pháo giấy', ripple:'Sóng lan', firework:'Pháo hoa', random:'Ngẫu nhiên' };
+function setClearFx(k){ clearFx=k; localStorage.setItem('flashgo_clearfx',k); buildFxGrid(); }
+function buildFxGrid(){
+  const g = byId('fxGrid'); if(!g) return; g.innerHTML='';
+  Object.entries(FX_STYLES).forEach(([k,n])=>{
+    const d=document.createElement('div'); d.className='theme-card'+(k===clearFx?' active':''); d.onclick=()=>setClearFx(k);
+    d.innerHTML='<div class="theme-title" style="margin:6px 0">'+n+'</div>'; g.appendChild(d);
+  });
+}
+function fxPal(){ return TYPES.map(t=>t.g); }
+function spawnShards(x,y,color){
+  for(let i=0;i<4;i++){ const ang=Math.random()*Math.PI*2, sp=3+Math.random()*5;
+    particles.push({x,y,c:color,r:CS*.16+Math.random()*CS*.1,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp-2,a:1,type:'shard',rot:Math.random()*6,vrot:(Math.random()-.5)*.5,fade:.03,g:.4}); }
+}
+function spawnConfetti(x,y){
+  const pal=fxPal();
+  for(let i=0;i<5;i++) particles.push({x,y,c:pal[Math.floor(Math.random()*pal.length)],r:3+Math.random()*3,vx:(Math.random()-.5)*9,vy:-(4+Math.random()*7),a:1,type:'conf',rot:Math.random()*6,vrot:(Math.random()-.5)*.4,fade:.014,g:.2});
+}
+function spawnFirework(x,y){
+  const pal=fxPal(), n=34;
+  shockwaves.push({x,y,r:6,lw:6,alpha:1,color:'#FFF'});
+  for(let i=0;i<n;i++){ const ang=Math.PI*2*i/n, sp=4.5+Math.random()*4;
+    particles.push({x,y,c:pal[i%pal.length],r:2+Math.random()*2.5,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,a:1,type:i%3?'dot':'star',rot:0,vrot:.1,fade:.017,g:.13}); }
+}
 function triggerLineClearVFX(rows, cols, totalLines){
-  if(laserFxOn){
-    rows.forEach(r => {
-      clearBeams.push({ type:'row', idx:r, width:16, alpha:1.0, color:'#FFE033' });
-    });
-    cols.forEach(c => {
-      clearBeams.push({ type:'col', idx:c, width:16, alpha:1.0, color:'#00D2FF' });
-    });
-  }
-
-  if(rows.length && cols.length){
-    rows.forEach(r => {
-      cols.forEach(c => {
-        shockwaves.push({ x:c*CS+CS/2, y:r*CS+CS/2, r:12, lw:8, alpha:1.0, color:'#FFF' });
-        shockwaves.push({ x:c*CS+CS/2, y:r*CS+CS/2, r:6, lw:5, alpha:0.9, color:'#FFE033' });
-        if(particleFxOn) spawnBurst(c*CS+CS/2, r*CS+CS/2, '#FFE033', 25);
-      });
-    });
-  } else {
-    rows.forEach(r => {
-      shockwaves.push({ x:GW/2, y:r*CS+CS/2, r:16, lw:6, alpha:1.0, color:'#FFE033' });
-    });
-    cols.forEach(c => {
-      shockwaves.push({ x:c*CS+CS/2, y:GH/2, r:16, lw:6, alpha:1.0, color:'#00D2FF' });
-    });
-  }
-
+  const style = clearFx==='random' ? ['classic','shatter','confetti','ripple','firework'][Math.floor(Math.random()*5)] : clearFx;
   const cellSet = new Set();
-  rows.forEach(r => { for(let c=0; c<GRID; c++) cellSet.add(`${r},${c}`); });
-  cols.forEach(c => { for(let r=0; r<GRID; r++) cellSet.add(`${r},${c}`); });
+  rows.forEach(r => { for(let c=0;c<GRID;c++) cellSet.add(`${r},${c}`); });
+  cols.forEach(c => { for(let r=0;r<GRID;r++) cellSet.add(`${r},${c}`); });
+  const cells = [...cellSet].map(k=>{ const [r,c]=k.split(',').map(Number);
+    const inRow = rows.includes(r), inCol = cols.includes(c);
+    const d = Math.min(inRow?Math.abs(c-(GRID-1)/2):99, inCol?Math.abs(r-(GRID-1)/2):99);
+    return {r,c,d:style==='ripple'?d*42:0}; });
+  const P = (r,c)=>[c*CS+CS/2, r*CS+CS/2];
 
-  if(particleFxOn){
-    cellSet.forEach(key => {
-      const [r,c] = key.split(',').map(Number);
-      const cell = grid[r][c];
-      if(cell){
-        const color = cell.t ? cell.t.g : '#FFE033';
-        spawnBurst(c*CS+CS/2, r*CS+CS/2, color, 12);
-      }
-    });
-  }
-
-  let startTime = performance.now();
-  const animDuration = 200;
-
-  function animateClearStep(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(1, elapsed / animDuration);
-
-    cellSet.forEach(key => {
-      const [r,c] = key.split(',').map(Number);
-      if(grid[r][c]) {
-        grid[r][c].scale = 1.0 + Math.sin(progress * Math.PI) * 0.38;
-        grid[r][c].alpha = 1.0 - Math.pow(progress, 1.4);
-      }
-    });
-
-    if(progress < 1) {
-      requestAnimationFrame(animateClearStep);
-    } else {
-      finalizeLineClear(rows, cols, totalLines);
+  if(style==='classic'){
+    if(laserFxOn){
+      rows.forEach(r => clearBeams.push({ type:'row', idx:r, width:16, alpha:1.0, color:GC.accent }));
+      cols.forEach(c => clearBeams.push({ type:'col', idx:c, width:16, alpha:1.0, color:'#00D2FF' }));
     }
+    if(rows.length && cols.length){
+      rows.forEach(r => cols.forEach(c => {
+        const [x,y]=P(r,c);
+        shockwaves.push({ x, y, r:12, lw:8, alpha:1.0, color:'#FFF' });
+        shockwaves.push({ x, y, r:6, lw:5, alpha:0.9, color:GC.accent });
+        if(particleFxOn) spawnBurst(x, y, GC.accent, 25);
+      }));
+    } else {
+      rows.forEach(r => shockwaves.push({ x:GW/2, y:r*CS+CS/2, r:16, lw:6, alpha:1.0, color:GC.accent }));
+      cols.forEach(c => shockwaves.push({ x:c*CS+CS/2, y:GH/2, r:16, lw:6, alpha:1.0, color:'#00D2FF' }));
+    }
+    if(particleFxOn) cells.forEach(({r,c})=>{ const cell=grid[r][c]; if(cell){ const [x,y]=P(r,c); spawnBurst(x,y,cell.t?cell.t.g:GC.accent,12); } });
+  } else if(style==='shatter'){
+    cells.forEach(({r,c})=>{ const cell=grid[r][c]; if(!cell) return; const [x,y]=P(r,c);
+      if(particleFxOn) spawnShards(x,y,cell.t.c);
+      shockwaves.push({x,y,r:4,lw:4,alpha:.7,color:'#FFF'}); });
+  } else if(style==='confetti'){
+    if(particleFxOn) cells.forEach(({r,c})=>{ const [x,y]=P(r,c); spawnConfetti(x,y); });
+    rows.forEach(r=>shockwaves.push({x:GW/2,y:r*CS+CS/2,r:16,lw:5,alpha:.8,color:GC.accent}));
+    cols.forEach(c=>shockwaves.push({x:c*CS+CS/2,y:GH/2,r:16,lw:5,alpha:.8,color:GC.accent}));
+  } else if(style==='ripple'){
+    const cols3=[GC.accent,'#FFF','#4DE1C1'];
+    rows.forEach(r=>cols3.forEach((col,i)=>shockwaves.push({x:GW/2,y:r*CS+CS/2,r:10+i*18,lw:8-i*2,alpha:1,color:col})));
+    cols.forEach(c=>cols3.forEach((col,i)=>shockwaves.push({x:c*CS+CS/2,y:GH/2,r:10+i*18,lw:8-i*2,alpha:1,color:col})));
+    if(particleFxOn) cells.forEach(({r,c})=>{ const [x,y]=P(r,c); spawnBurst(x,y,GC.accent,5); });
+  } else if(style==='firework'){
+    rows.forEach(r=>{ for(let i=0;i<2;i++) spawnFirework((1.5+Math.random()*(GRID-3))*CS, r*CS+CS/2); });
+    cols.forEach(c=>{ for(let i=0;i<2;i++) spawnFirework(c*CS+CS/2, (1.5+Math.random()*(GRID-3))*CS); });
   }
 
+  const startTime = performance.now(), maxD = Math.max(0,...cells.map(x=>x.d)), total = 200+maxD;
+  function animateClearStep(now){
+    const el = now-startTime;
+    cells.forEach(({r,c,d})=>{ const cell=grid[r][c]; if(!cell) return;
+      const pr = Math.min(1,Math.max(0,(el-d)/200));
+      if(style==='shatter'){ cell.scale=1+.12*pr; cell.alpha=pr>0?Math.max(0,1-pr*4):1; }
+      else if(style==='ripple'){ cell.scale=1+Math.sin(pr*Math.PI)*.5; cell.alpha=pr>=1?0:1-pr*pr; }
+      else { cell.scale=1+Math.sin(pr*Math.PI)*.38; cell.alpha=1-Math.pow(pr,1.4); } });
+    if(el<total) requestAnimationFrame(animateClearStep);
+    else finalizeLineClear(rows, cols, totalLines);
+  }
   requestAnimationFrame(animateClearStep);
 }
 
@@ -1674,7 +1736,7 @@ function finalizeLineClear(rows, cols, n){
   const isCombo = combo > 2;
   if(isCombo){
     sfxCombo(combo);
-    showComboToast(`COMBO x${combo}! ⚡`);
+    showComboToast(`COMBO x${combo}!`);
   } else {
     sfxClear(n);
   }
@@ -1736,7 +1798,7 @@ function checkLevel(){
     partner=PARTNERS[(level-1)%PARTNERS.length];
     partnerHp=partner.hp;
     sfxLvlUp();
-    showComboToast(`LEVEL UP! Lv.${level} 🎉`);
+    showComboToast(`LEVEL UP  Lv.${level}`);
     if(particleFxOn){
       for(let r=0;r<GRID;r++) for(let c=0;c<GRID;c++){
         if(grid[r][c]) spawnBurst(c*CS+CS/2,r*CS+CS/2,'#FFE033',7);
@@ -1751,18 +1813,18 @@ function checkGameOver(){
     if(canShapeFitAnywhere(pieces[i].s)) return;
   }
   sfxGameOver(); gameOver=true;
-  document.getElementById('goTitle').textContent = 'HẾT LƯỢT!';
-  document.getElementById('goPartner').textContent=partner.e+' '+partner.n+' đã kiệt sức!';
-  document.getElementById('goScore').textContent='Điểm: '+score.toLocaleString();
-  document.getElementById('goBest').textContent='Cao nhất: '+best.toLocaleString();
+  document.getElementById('goTitle').textContent = 'HẾT CHỖ';
+  document.getElementById('goPartner').textContent = '';
+  document.getElementById('goScore').textContent=''+score.toLocaleString();
+  document.getElementById('goBest').textContent=''+best.toLocaleString();
   setTimeout(()=>document.getElementById('overlay').classList.remove('hidden'),600);
 }
 
 function triggerTimeoutGameOver(){
   if(gameOver) return;
   sfxGameOver(); gameOver=true;
-  document.getElementById('goTitle').textContent = '⏰ HẾT THỜI GIAN!';
-  document.getElementById('goPartner').textContent = 'Quá 5 giây chưa đặt khối — hết giờ!';
+  document.getElementById('goTitle').textContent = 'HẾT GIỜ';
+  document.getElementById('goPartner').textContent = '';
   document.getElementById('goScore').textContent = 'Điểm: ' + score.toLocaleString();
   document.getElementById('goBest').textContent = 'Cao nhất: ' + best.toLocaleString();
   setTimeout(()=>document.getElementById('overlay').classList.remove('hidden'),300);
@@ -1770,17 +1832,12 @@ function triggerTimeoutGameOver(){
 
 // ── PIECE GENERATOR ──────────────────────────
 function genPieces(){
-  pieces = [];
-  for(let i=0; i<N_SLOTS; i++){
-    const s = getRandomShape();
-    const t = TYPES[Math.floor(Math.random()*TYPES.length)];
-    pieces.push({ s, t });
+  for(let tries=0; tries<30; tries++){
+    pieces = [];
+    for(let i=0;i<N_SLOTS;i++) pieces.push({ s:getRandomShape(), t:TYPES[Math.floor(Math.random()*TYPES.length)] });
+    if(pieces.some(p=>canShapeFitAnywhere(p.s))) return;
   }
-
-  let playable = pieces.some(p => canShapeFitAnywhere(p.s));
-  if(!playable) {
-    pieces[0].s = [[1,1]];
-  }
+  pieces[0].s = [[1]];
 }
 
 function initGame(){
@@ -1802,6 +1859,7 @@ function initGame(){
   lastTickSec = 5;
   lastFrameTime = performance.now();
   updateTimerUI();
+  byId('timerContainer').style.display = timerRushOn ? 'flex' : 'none';
 
   setGameTheme(curTheme);
   genPieces();
@@ -1841,7 +1899,7 @@ function updateTimerUI(){
   fill.style.width = pct + '%';
   txt.textContent = Math.max(0, rushTimeLeft).toFixed(1) + 's';
 
-  if(rushTimeLeft <= 1.8){
+  if(rushTimeLeft <= Math.min(1.8, RUSH_TIME_LIMIT*.4)){
     track.classList.add('danger');
     txt.style.color = '#FF2A4D';
     txt.style.textShadow = '0 0 10px #FF0055';
