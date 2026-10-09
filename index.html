@@ -741,7 +741,7 @@ function calcSizes(){
 // ── State ────────────────────────────────────
 let grid, pieces, score, best, level, xp, xpMax;
 let combo, comboTimer, linesCleared, partner, partnerHp;
-let dragging=null, gameOver=false, paused=false;
+let dragging=null, gameOver=false, paused=false, timerArmed=false;
 let particles=[], clearBeams=[], shockwaves=[];
 let volume = 0.85;
 let muted = false;
@@ -1481,6 +1481,7 @@ function buildDrag(p){
 
 function startDrag(cx,cy,srcX,isTouch){
   const idx=pieceAt(srcX); if(idx<0)return;
+  if(!timerArmed){ timerArmed=true; rushTimeLeft=RUSH_TIME_LIMIT; }
   const p=pieces[idx];
   const {w,h}=buildDrag(p);
   dragging={pi:idx,isTouch,gr:-1,gc:-1,w,h};
@@ -1794,7 +1795,7 @@ function initGame(){
   clearTimeout(comboTimer);
   document.getElementById('overlay').classList.add('hidden');
   document.getElementById('settingsOverlay').classList.add('hidden');
-  paused=false; document.getElementById('pauseOverlay').classList.add('hidden');
+  paused=false; timerArmed=false; document.getElementById('pauseOverlay').classList.add('hidden');
   
   // Rush timer reset
   rushTimeLeft = RUSH_TIME_LIMIT;
@@ -1899,7 +1900,7 @@ function loop(timestamp){
   if(!gameOver){
     // Update Rush timer if active and settings modal is closed
     const isSettingsOpen = !document.getElementById('settingsOverlay').classList.contains('hidden');
-    if(timerRushOn && !isSettingsOpen && !paused && delta < 0.5){
+    if(timerRushOn && timerArmed && !isSettingsOpen && !paused && delta < 0.5){
       rushTimeLeft -= delta;
 
       // Play emergency tick sound every second when < 2s
