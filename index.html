@@ -372,6 +372,18 @@ input:checked + .slider-tgl{background-color:var(--accent2)}
 .btn-play-sound{display:inline-flex;align-items:center;gap:4px}
 .timer-label{display:flex;align-items:center}
 .go-x{display:flex;align-items:center;justify-content:center;padding:0}
+
+.seg{display:flex;gap:10px}
+.seg button{flex:1;padding:12px 0;border-radius:14px;border:2px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font:700 30px 'Teko',sans-serif;cursor:pointer}
+.seg button.active{background:var(--accent);color:#14161f;border-color:var(--accent)}
+#settingsOverlay .modal{display:flex;flex-direction:column;overflow:hidden;max-height:92vh;padding-top:12px}
+#settingsOverlay .set-panel.active{flex:1;min-height:0;overflow-y:auto}
+.mhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-shrink:0}
+.mhead .mtitle{margin:0;font-size:20px}
+.mhead-act{display:flex;gap:8px;align-items:center}
+.btn-save{display:inline-flex;align-items:center;gap:5px;height:42px;padding:0 14px;border-radius:12px;border:none;background:var(--accent);color:#14161f;font:900 14px 'Nunito',sans-serif;cursor:pointer}
+.x-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.x-btn .ic{width:20px;height:20px}
 </style>
 </head>
 <body>
@@ -407,7 +419,7 @@ input:checked + .slider-tgl{background-color:var(--accent2)}
   <section id="hud">
     <div class="score-main"><span class="hl">ĐIỂM</span><b id="scoreVal">0</b></div>
     <div class="hud-side">
-      <div class="chip"><span class="hl">CAO NHẤT</span><b id="bestVal">0</b></div>
+      <div class="chip"><span class="hl" id="bestLbl">CAO NHẤT</span><b id="bestVal">0</b></div>
       <div class="chip"><span class="hl">CẤP</span><b id="lvVal">1</b></div>
     </div>
   </section>
@@ -473,10 +485,7 @@ input:checked + .slider-tgl{background-color:var(--accent2)}
 <!-- SETTINGS MODAL DASHBOARD -->
 <div id="settingsOverlay" class="modal-overlay hidden">
   <div class="modal" style="text-align:left">
-    <div style="text-align:center;margin-bottom:10px">
-      <div class="mtitle">CÀI ĐẶT</div>
-      
-    </div>
+    <div class="mhead"><div class="mtitle">CÀI ĐẶT</div><div class="mhead-act"><button class="btn-save" onclick="closeSettingsModal()"><svg class="ic"><use href="#i-check"/></svg>LƯU</button><button class="x-btn" onclick="closeSettingsModal()" aria-label="Đóng"><svg class="ic"><use href="#i-close"/></svg></button></div></div>
 
     <!-- Tabs -->
     <div class="settings-tabs">
@@ -490,13 +499,9 @@ input:checked + .slider-tgl{background-color:var(--accent2)}
     <!-- Panel 1: Mode & 5s Timer -->
     <div id="tab-mode" class="set-panel active">
       <div class="sound-sect">
-        <div class="sound-sect-title">THỜI GIAN ĐẶT KHỐI</div>
-        <div class="setting-row">
-          <div class="setting-name"><span>Giới hạn thời gian</span></div>
-          <label class="switch"><input type="checkbox" id="chkTimerRush" onchange="toggleTimerRush(this.checked)"><span class="slider-tgl"></span></label>
-        </div>
-        <div class="opt-row"><div class="setting-name"><span>Thời gian mỗi lượt<b id="vRush"></b></span></div><input type="range" class="vol-slider" id="sRush" min="1" max="15" step="1" oninput="setRushLimit(this.value)"></div>
-        <div class="setting-row" style="border:none">
+        <div class="sound-sect-title">THỜI GIAN MỖI LƯỢT</div>
+        <div class="seg"><button id="tm5" onclick="setTimeMode(5)">5s</button><button id="tm10" onclick="setTimeMode(10)">10s</button></div>
+        <div class="setting-row" style="border:none;margin-top:8px">
           <div class="setting-name"><span>Tiếng tíc tắc</span></div>
           <label class="switch"><input type="checkbox" id="chkTickSound" checked onchange="toggleTickSound(this.checked)"><span class="slider-tgl"></span></label>
         </div>
@@ -710,7 +715,7 @@ input:checked + .slider-tgl{background-color:var(--accent2)}
     </div>
 
     <div style="margin-top:10px">
-      <button class="btn" onclick="closeSettingsModal()" style="background:linear-gradient(145deg,#00C853,#1B5E20);color:#FFF;padding:12px;width:100%"><svg class="ic"><use href="#i-check"/></svg>XONG</button>
+      
     </div>
   </div>
 </div>
@@ -821,14 +826,17 @@ let muted = false;
 let curPlaceSfx = localStorage.getItem('pkblast_place_sfx') || 'A1';
 let curClearSfx = localStorage.getItem('pkblast_clear_sfx') || 'B1';
 let curTheme    = localStorage.getItem('pkblast_theme') || 'midnight';
-let timerRushOn = localStorage.getItem('flashgo_timer') !== 'false'; // mặc định BẬT
+let timerRushOn = true;
 let tickSoundOn = localStorage.getItem('pkblast_tick_sfx') !== 'false';
 let shakeFxOn   = localStorage.getItem('pkblast_fx_shake') !== 'false';
 let laserFxOn   = localStorage.getItem('pkblast_fx_laser') !== 'false';
 let particleFxOn= localStorage.getItem('pkblast_fx_particles') !== 'false';
 
 // ── 5-SECOND RUSH TIMER STATE ────────────────
-let RUSH_TIME_LIMIT = Math.min(15,Math.max(1,parseInt(localStorage.getItem('flashgo_rush_sec'))||5));
+let timeMode = localStorage.getItem('flashgo_time_mode')==='10' ? 10 : 5;
+let RUSH_TIME_LIMIT = timeMode;
+let pendingRestart = false, graceLeft = .35;
+const bestKey = () => 'flashgo_best_'+timeMode;
 let rushTimeLeft = RUSH_TIME_LIMIT;
 let lastFrameTime = performance.now();
 let lastTickSec = 5;
@@ -1024,12 +1032,12 @@ function closeSettingsModal(){
   localStorage.setItem('pkblast_place_sfx', curPlaceSfx);
   localStorage.setItem('pkblast_clear_sfx', curClearSfx);
   localStorage.setItem('pkblast_theme', curTheme);
-  localStorage.setItem('flashgo_timer', timerRushOn);
   localStorage.setItem('pkblast_tick_sfx', tickSoundOn);
   localStorage.setItem('pkblast_fx_shake', shakeFxOn);
   localStorage.setItem('pkblast_fx_laser', laserFxOn);
   localStorage.setItem('pkblast_fx_particles', particleFxOn);
   document.getElementById('settingsOverlay').classList.add('hidden');
+  if(pendingRestart){ pendingRestart=false; restartGame(); }
 }
 
 function switchSettingTab(panelId){
@@ -1039,19 +1047,13 @@ function switchSettingTab(panelId){
   event.target.classList.add('active');
 }
 
-function toggleTimerRush(on){
-  timerRushOn = on;
-  rushTimeLeft = RUSH_TIME_LIMIT;
-  document.getElementById('timerContainer').style.display = on ? 'flex' : 'none';
-  document.getElementById('timerModeText').textContent = on ? 'ĐANG BẬT' : 'ĐÃ TẮT';
+function setTimeMode(m){
+  if(m===timeMode) return;
+  timeMode=m; RUSH_TIME_LIMIT=m; pendingRestart=true;
+  localStorage.setItem('flashgo_time_mode',m); syncTimeMode();
 }
+function syncTimeMode(){ byId('tm5').classList.toggle('active',timeMode===5); byId('tm10').classList.toggle('active',timeMode===10); }
 
-function setRushLimit(v){
-  RUSH_TIME_LIMIT = Math.min(15,Math.max(1,parseInt(v)||5));
-  localStorage.setItem('flashgo_rush_sec', RUSH_TIME_LIMIT);
-  rushTimeLeft = RUSH_TIME_LIMIT; lastTickSec = 99;
-  byId('vRush').textContent = ' '+RUSH_TIME_LIMIT+'s'; updateTimerUI();
-}
 function toggleTickSound(on){ tickSoundOn = on; }
 function toggleShakeFx(on){ shakeFxOn = on; }
 function toggleLaserFx(on){ laserFxOn = on; }
@@ -1081,8 +1083,7 @@ function testComboAudio(){
 
 function syncSettingsUI(){
   // Timer switch
-  document.getElementById('chkTimerRush').checked = timerRushOn;
-  byId('sRush').value = RUSH_TIME_LIMIT; byId('vRush').textContent = ' '+RUSH_TIME_LIMIT+'s';
+  syncTimeMode();
   document.getElementById('chkTickSound').checked = tickSoundOn;
   document.getElementById('chkShakeFx').checked = shakeFxOn;
   document.getElementById('chkLaserFx').checked = laserFxOn;
@@ -1526,6 +1527,7 @@ function buildDrag(p){
 function startDrag(cx,cy,srcX,isTouch){
   const idx=pieceAt(srcX); if(idx<0)return;
   if(!timerArmed){ timerArmed=true; rushTimeLeft=RUSH_TIME_LIMIT; }
+  graceLeft = .35;
   const p=pieces[idx];
   const {w,h}=buildDrag(p);
   dragging={pi:idx,isTouch,gr:-1,gc:-1,w,h};
@@ -1611,7 +1613,7 @@ function tryPlace(pi,row,col){
   sfxPlace();
   
   // RESET 5-SECOND RUSH TIMER ON SUCCESSFUL PLACEMENT!
-  rushTimeLeft = RUSH_TIME_LIMIT;
+  rushTimeLeft = RUSH_TIME_LIMIT; graceLeft = .35;
   lastTickSec = 5;
   updateTimerUI();
 
@@ -1789,7 +1791,7 @@ function resetCombo(){ combo=1; updateUI(); }
 
 function addScore(pts){
   score+=pts;
-  if(score>best){best=score;localStorage.setItem('pkblast5_best',best);}
+  if(score>best){best=score;localStorage.setItem(bestKey(),best);}
 }
 
 function checkLevel(){
@@ -1825,24 +1827,33 @@ function triggerTimeoutGameOver(){
   sfxGameOver(); gameOver=true;
   document.getElementById('goTitle').textContent = 'HẾT GIỜ';
   document.getElementById('goPartner').textContent = '';
-  document.getElementById('goScore').textContent = 'Điểm: ' + score.toLocaleString();
-  document.getElementById('goBest').textContent = 'Cao nhất: ' + best.toLocaleString();
+  document.getElementById('goScore').textContent = ''+score.toLocaleString();
+  document.getElementById('goBest').textContent = ''+best.toLocaleString();
   setTimeout(()=>document.getElementById('overlay').classList.remove('hidden'),300);
 }
 
 // ── PIECE GENERATOR ──────────────────────────
 function genPieces(){
+  const filled = grid.flat().filter(Boolean).length/(GRID*GRID);
+  const sizeOf = sh => sh.flat().filter(Boolean).length;
+  const pick = ()=>{
+    // ưu tiên khối nhỏ nhẹ nhàng khi bàn chơi đã đầy hơn 45%
+    const ws = SHAPES_WEIGHTED.map(it=> it.w * (filled>.45 ? Math.pow(.85, Math.max(0,sizeOf(it.s)-2)*(filled-.3)*3) : 1));
+    let r = Math.random()*ws.reduce((a,b)=>a+b,0);
+    for(let i=0;i<ws.length;i++){ r-=ws[i]; if(r<=0) return SHAPES_WEIGHTED[i].s; }
+    return SHAPES_WEIGHTED[0].s;
+  };
   for(let tries=0; tries<30; tries++){
     pieces = [];
-    for(let i=0;i<N_SLOTS;i++) pieces.push({ s:getRandomShape(), t:TYPES[Math.floor(Math.random()*TYPES.length)] });
-    if(pieces.some(p=>canShapeFitAnywhere(p.s))) return;
+    for(let i=0;i<N_SLOTS;i++) pieces.push({ s:pick(), t:TYPES[Math.floor(Math.random()*TYPES.length)] });
+    if(pieces.filter(p=>canShapeFitAnywhere(p.s)).length >= 2 || (tries>25 && pieces.some(p=>canShapeFitAnywhere(p.s)))) return;
   }
   pieces[0].s = [[1]];
 }
 
 function initGame(){
   grid=Array.from({length:GRID},()=>Array(GRID).fill(null));
-  score=0; best=parseInt(localStorage.getItem('pkblast5_best')||'0');
+  score=0; best=parseInt(localStorage.getItem(bestKey())||'0');
   level=1; xp=0; xpMax=450;
   combo=1; comboTimer=null; linesCleared=0;
   partner=PARTNERS[Math.floor(Math.random()*PARTNERS.length)];
@@ -1875,6 +1886,7 @@ function restartGame(){ initGame(); }
 function updateUI(){
   document.getElementById('scoreVal').textContent=score.toLocaleString();
   document.getElementById('bestVal').textContent=best.toLocaleString();
+  byId('bestLbl').textContent='CAO NHẤT · '+timeMode+'s';
   document.getElementById('lvVal').textContent=level;
   document.getElementById('comboVal').textContent='x'+combo;
   document.getElementById('linesVal').textContent=linesCleared;
@@ -1973,7 +1985,8 @@ function loop(timestamp){
       if(rushTimeLeft <= 0){
         rushTimeLeft = 0;
         updateTimerUI();
-        triggerTimeoutGameOver();
+        if(dragging && graceLeft > 0) graceLeft -= delta;
+        else triggerTimeoutGameOver();
       } else {
         updateTimerUI();
       }
